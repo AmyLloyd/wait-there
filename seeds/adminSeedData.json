@@ -1,0 +1,12 @@
+[
+    {
+        "username":"admin1",
+        "email_address": "admin1@email.com",
+        "password": "netball123"
+    },
+    {
+        "username":"walkerstmarkets",
+        "email_address":"walkerst@email.com",
+        "password": "markets123"
+    }
+]

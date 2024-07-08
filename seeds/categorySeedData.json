@@ -1,0 +1,28 @@
+[
+    {
+        "id":1,
+        "name":"Drinks",
+        "admin_id": 1
+    },
+    {
+        "id":2,
+        "name":"Sweets",
+        "admin_id":1
+    },
+    {
+        "id":3,
+        "name":"Snacks",
+        "admin_id":1
+    },
+    {
+        "id":4,
+        "name":"Fruit",
+        "admin_id":2
+
+    },
+    {
+        "id":5,
+        "name":"Hot food",
+        "admin_id":1
+    }
+]
