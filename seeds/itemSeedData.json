@@ -1,0 +1,31 @@
+[
+    {
+        "id":1,
+        "name": "Fanta",
+        "status": "Being prepared",
+        "price": "4.00",
+        "category_id":1
+
+    },
+    {
+        "id":2,
+        "name": "Cupcake",
+        "status": "Sold out",
+        "price": "3.00",
+        "category_id":2
+    },
+    {
+        "id":3,
+        "name": "Coffee",
+        "status": "In transit",
+        "price": "5.00",
+        "category_id":1
+    },
+    {
+        "id":4,
+        "name": "Chocolate bar",
+        "status": "Awaiting collection",
+        "price": "2.00",
+        "category_id":3
+    }
+]
