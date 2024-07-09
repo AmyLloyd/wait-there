@@ -63,12 +63,23 @@ router.post("/login", async (req, res) => {
     }
 });
 
-router.post("logout", (req, res) => {
+//http request localhost:3001/api/admins/logout
+
+router.post("/logout", (req, res) => {
+    console.log('Session object before destroy:', req.session);
     if(req.session.logged_in) {
-        req.session.destroy(() => {
-            res.status(204).end();
-        });
+        console.log('logged in');
+        req.session.destroy(err => {
+            if (err) {
+                console.error('Error destroying session:', err);
+                res.status(500).json({ message: 'Failed to destroy session' });
+            } else {
+                console.log('Session destroyed');
+                res.status(204).end();
+            }
+        })
     } else {
+        console.log('not logged in');
         res.status(404).end();
     }
 });

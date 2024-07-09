@@ -3,9 +3,13 @@ const withAuth = require('../utils/auth');
 
 const { Admin, Item, Category } = require('../models');
 
+
+router.get('/', async (req, res) => {
+  res.render('homepage');
+})
+
 router.get('/dashboard', withAuth, async (req, res) => {
   try {
-
     const categoryData = await Category.findAll({
       where: {
         admin_id: req.session.admin_id,
@@ -26,18 +30,18 @@ router.get('/dashboard', withAuth, async (req, res) => {
       res.status(404).json({ message: "No categories found" });
       return;
     }
-
+   
     const categories = categoryData.map((category) => 
       category.get({ plain:true }));
 
-    console.log(categoryData.category, 'categoryData');
+    console.log(categories,'categories');
 
     res.render('dashboard', {
-      categories
+      categories, 
+      logged_in: req.session.logged_in
     });
 
   } catch (err) {
-    console.error(err);
     res.status(500).json(err);
   }
 });
@@ -71,7 +75,7 @@ router.get('/dashboard', withAuth, async (req, res) => {
 //   }
 // });
 
-// router.get('/', async (req, res) => {
+// router.get('/dashboard', withAuth, async (req, res) => {
 //   try {
 //     // Get all items and JOIN with admin data
 //     const itemData = await Item.findAll({
@@ -88,9 +92,9 @@ router.get('/dashboard', withAuth, async (req, res) => {
  
 
 //     // Pass serialized data into Handlebars.js template
-//     res.render('homepage', { 
-//         items, categories
-//         // logged_in: req.session.logged_in
+//     res.render('dashboard', { 
+//         items, categories,
+//         logged_in: req.session.logged_in
 //      });
 //   } catch (err) {
 //     res.status(500).json(err);

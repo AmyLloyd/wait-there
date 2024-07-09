@@ -1,36 +1,36 @@
 <section class="row">
-    <h2>{{admin.username}} Dashboard </h2>
+    <h2>Dashboard </h2>
     <p class="lead">Here's your space to make changes to items, check orders and do all things backend.</p>
 </section>
 
 <section class="row">
     <div class="col-md-4 order-md-2">
-
-        <h4>Menu</h4>
-        {{#each categories as |category|}}
+       
+        <h4>Order Menu</h4>
         <div class="accordion" id="accordionExample">
-          
+            {{#each categories}}
             <div class="accordion-item">
                 <h2 class="accordion-header">
                     <button class="accordion-button" type="button" data-bs-toggle="collapse" data-bs-target="#collapse{{@index}}" aria-expanded="true" aria-controls="collapse{{@index}}">
-                        {{category.name}}
+                 {{this.name}}
                     </button>
                 </h2>
-                
+              
                 <div id="collapse{{@index}}" class="accordion-collapse collapse show" data-bs-parent="#accordionExample">
+                    {{#each this.Items}}
                     <div class="accordion-body">
-                        {{#each categories.item as |item|}}
-                        <strong>{{item.name}}</strong> {{item.status}} <code>{{admin.username}}</code> {{admin.category}}.
-                        {{/each}}
+                        <strong>{{this.name}}{{this.status}}{{this.price}}</strong>  <code></code>.
                     </div>
+                    {{/each}}
                 </div>
-            
+         
             </div>
-   
-        </div>
         {{/each}}
+        </div>
+
     </div>
     <div class="col-md-4 order-md-1">
         <h4>Orders</h4>
+
     </div>
 </section>
