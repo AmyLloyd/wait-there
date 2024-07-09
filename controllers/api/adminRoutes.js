@@ -1,31 +1,56 @@
 const router = require("express").Router();
 const { Admin } = require("../../models");
 
+//http request: /api/admins/
 router.post("/", async (req, res) => {
-    console.log("here");
+
     try {
+
+        const { email_address, password } = req.body;
+        if (!email_address || !password) {
+            return res.status(400).json({ message: "Email and password are required" });
+        }
+
         const adminData = await Admin.create(req.body);
-        console.log("here now");
 
         req.session.save(() => {
             req.session.admin_id = adminData.id;
             req.session.logged_in = true;
+
             res.status(200).json(adminData);
         });
     } catch (err) {
-        res.status(400).json(err);
+        console.error(err);
+        res.status(400).json({ message: "Admin signup failed"});
     }
 });
 
+//http request: /api/admins/login
 router.post("/login", async (req, res) => {
     try {
-        const adminData = await Admin.findOne({ where: { email_address: req.body.email_address } });
+
+        const { email_address, password } = req.body;
+        if (!email_address || !password) {
+            return res.status(400).json({ message: "Email and password are required" });
+        }
+
+        const adminData = await Admin.findOne({ where: { email_address } });
         if (!adminData) {
             res
             .status(400)
             .json({ message: "Incorrect email or password, please try again" });
             return;
         }
+
+        const validPassword = await adminData.checkPassword(req.body.password);
+
+        if (!validPassword) {
+          res
+            .status(400)
+            .json({ message: 'Incorrect email or password, please try again' });
+          return;
+        }
+
         req.session.save(() => {
             req.session.admin_id = adminData.id;
             req.session.logged_in = true;
@@ -33,7 +58,8 @@ router.post("/login", async (req, res) => {
             res.json({ admin: adminData, message : "You are now logged in" });
         });
     } catch (err) {
-        res.status(400).json(err);
+        console.error(err);
+        res.status(400).json({ message: "Log in failed"});
     }
 });
 

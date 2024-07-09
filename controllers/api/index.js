@@ -1,9 +1,8 @@
 const router = require('express').Router();
 const adminRoutes = require('./adminRoutes');
-// const orderRoutes = require('./orderRoutes');
-// const itemRoutes = require('./itemRoutes');
+const categoryRoutes = require('./categoryRoutes');
 
 router.use('/admins', adminRoutes);
-// router.use('/items', itemRoutes);
+router.use('/categories', categoryRoutes);
 
 module.exports = router;

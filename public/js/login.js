@@ -22,34 +22,34 @@ const loginFormHandler = async (event) => {
     }
   };
   
-  const signupFormHandler = async (event) => {
-    event.preventDefault();
-  
-    const username = document.querySelector('#name-signup').value.trim();
-    const email_address = document.querySelector('#email-signup').value.trim();
-    const password = document.querySelector('#password-signup').value.trim();
-  
-    if (username && email_address && password) {
-        console.log('in login.js');
-      const response = await fetch('/api/admins', {
-        method: 'POST',
-        body: JSON.stringify({ username, email_address, password }),
-        headers: { 'Content-Type': 'application/json' },
-      });
-  
-      if (response.ok) {
-        document.location.replace('/dashboard');
-      } else {
-        alert(response.statusText);
-      }
+const signupFormHandler = async (event) => {
+  event.preventDefault();
+
+  const username = document.querySelector('#name-signup').value.trim();
+  const email_address = document.querySelector('#email-signup').value.trim();
+  const password = document.querySelector('#password-signup').value.trim();
+
+  if (username && email_address && password) {
+      console.log('in login.js');
+    const response = await fetch('/api/admins', {
+      method: 'POST',
+      body: JSON.stringify({ username, email_address, password }),
+      headers: { 'Content-Type': 'application/json' },
+    });
+
+    if (response.ok) {
+      document.location.replace('/dashboard');
+    } else {
+      alert(response.statusText);
     }
-  };
-  
-  document
-    .querySelector('.login-form')
-    .addEventListener('submit', loginFormHandler);
-  
-  document
-    .querySelector('.signup-form')
-    .addEventListener('submit', signupFormHandler);
+  }
+};
+
+document
+  .querySelector('.login-form')
+  .addEventListener('submit', loginFormHandler);
+
+document
+  .querySelector('.signup-form')
+  .addEventListener('submit', signupFormHandler);
   
