@@ -1,6 +1,8 @@
 const router = require("express").Router();
 const { Admin } = require("../../models");
 
+const withAuth = require("../../utils/auth");
+
 //http request: /api/admins/
 router.post("/", async (req, res) => {
 
@@ -83,5 +85,24 @@ router.post("/logout", (req, res) => {
         res.status(404).end();
     }
 });
+
+
+// UPDATE an admin http request: api/admins/:id
+router.put('/:id', withAuth, async (req, res) => {
+    try {
+      const adminData = await Admin.update(req.body, {
+        where: {
+          id: req.params.id,
+        },
+      });
+      if (!adminData[0]) {
+        res.status(404).json({ message: 'No admin with this id!' });
+        return;
+      }
+      res.status(200).json(adminData);
+    } catch (err) {
+      res.status(500).json(err);
+    }
+  });
 
 module.exports = router;

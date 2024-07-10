@@ -1,6 +1,6 @@
 
 <section class="row">
-    <div class="col-md-4 order-md-1">
+    <div class="col-md-4 order-md-2">
        
         <h4>Order Menu</h4>
         <div class="accordion accordion-flush" id="accordionFlushExample">
@@ -17,18 +17,11 @@
                     <div class="accordion-body row">
                         <div class="col-6">{{this.name}}</div>
                         <div class="col-2">${{this.price}}</div>
+                        <div class="col-2">{{this.status}}</div>
                         <div class="col-2">
                             <button type="button" class="btn btn-dark btn-sm">Add</button>
                         </div>
-                    </div>
-                    <div class="row">
-                        <div class="col-8">{{this.status}}</div>
-                        <div class="col-4">
-                            <button class="btn">Update status</button>
-                        </div>
-
-                    </div>
-                    
+                    </div>                    
                     {{/each}}
                 </div>
          
@@ -37,7 +30,7 @@
         </div>
 
     </div>
-    <div class="col-md-4 order-md-2">
+    <div class="col-md-4 order-md-1">
         <h4>Orders</h4>
 
     </div>
