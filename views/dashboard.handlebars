@@ -4,28 +4,26 @@
 </section>
 
 <section class="row">
-    <div class="col-md-4 order-md-1">
+    <div class="col-md-5 order-md-1">
        
-        <h4>Canteen Items</h4>
+        <h4>Items</h4>
         <div class="accordion accordion-flush" id="accordionFlushExample">
             {{#each categories}}
             <div class="accordion-item">
-                <h2 class="accordion-header">
-                    <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#flush-collapseOne" aria-expanded="flase" aria-controls="flush-collapseOne">
+                <h2 class="accordion-header" id="heading-{{@index}}">
+                    <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#flush-collapse-{{@index}}" aria-expanded="false" aria-controls="#flush-collapse-{{@index}}">
                  {{this.name}}
                     </button>
                 </h2>
-              
-                <div id="flush-collapseOne" class="accordion-collapse collapse" data-bs-parent="#accordionFlushExample">
+                <div id="flush-collapse-{{@index}}" class="accordion-collapse collapse" data-bs-parent="#accordionFlushExample">
                     {{#each this.items}}
                     <div class="accordion-body row">
                         <div class="col-4">{{this.name}}</div>
-                        <div class="col-2">${{this.price}}</div>
+                        <div class="col-1">${{this.price}}</div>
                         <div class="col-3">{{this.status}}</div>
                         <div class="col-3">
-                            <button class="btn btn-dark btn-sm" type="button">Update status</button>
+                            <button class="btn btn-dark btn-sm item-list" data-id=`{{this.id}}` type="button">Update status {{item.name}}</button>
                         </div>
-
                     </div>
                     {{/each}}
                 </div>
@@ -35,8 +33,11 @@
         </div>
 
     </div>
-    <div class="col-md-4 order-md-2">
+    <div class="col-md-5 order-md-2">
         <h4>Orders</h4>
+        
 
     </div>
 </section>
+
+<script src="./js/dashboard.js"></script>
