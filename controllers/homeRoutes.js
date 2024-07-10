@@ -5,8 +5,21 @@ const { Admin, Item, Category } = require('../models');
 
 
 router.get('/', async (req, res) => {
-  res.render('homepage');
-})
+  try {
+    const adminData = await Admin.findAll({
+      exclude: [{ attributes: password }]
+    });
+
+    const admins = adminData.map((admin) =>
+    admin.get({ plain:true }) );
+  
+  res.render('homepage', {
+    admins
+  });
+
+  } catch(err) {
+  res.status(400).json(err);
+  }});
 
 router.get('/dashboard', withAuth, async (req, res) => {
   try {
@@ -20,7 +33,9 @@ router.get('/dashboard', withAuth, async (req, res) => {
           attributes: [
               "id",
               "name",
-              "status"
+              "price",
+              "status",
+              "category_id"
           ],
         },
       ],
@@ -35,6 +50,7 @@ router.get('/dashboard', withAuth, async (req, res) => {
       category.get({ plain:true }));
 
     console.log(categories,'categories');
+    console.log(categories.items, 'categories.items');
 
     res.render('dashboard', {
       categories, 
@@ -46,61 +62,23 @@ router.get('/dashboard', withAuth, async (req, res) => {
   }
 });
 
-// router.get('/dashboard', withAuth, async (req, res) => {
-//   try {
-//     const adminData = await Admin.findByPk(req.session.admin_id, {
-//       attributes: { exclude: ['password'] },
-//       include: [{
-//         model: Category,
-//         include: [{
-//           model: Item
-//         }]
-//       }]
-//     });
+router.get('/orders/:id', async (req, res) => {
+  try {
+    const categoryData = await Category.findAll({ 
+      where: { admin_id: req.params.id},
+      include: [{ model: Item }],
+    });
+    console.log('categoryData', categoryData);
 
-//     if (!adminData) {
-//       res.status(404).json({ message: 'Admin not found' });
-//       return;
-//     }
-//     console.log(adminData, "adminData");
-//     const admin = adminData.get({ plain:true });
-
-//     res.render('dashboard', {
-//       ...admin, 
-//       logged_in: true
-//     });
-//     console.log(admin, "admin");
-//   } catch(err) {
-//     res.status(500).json(err);
-//   }
-// });
-
-// router.get('/dashboard', withAuth, async (req, res) => {
-//   try {
-//     // Get all items and JOIN with admin data
-//     const itemData = await Item.findAll({
-//         include: [
-            
-//                 { model: Admin, attributes: { exclude: ['password'] }},
-//                 { model: Category }
-//         ],
-//         order:["category_id"],
-//     });
-//     console.log('itemData', itemData);
-//     // Serialize data so templates can read it
-//     const items = itemData.map((item) => item.get({ plain: true }));
- 
-
-//     // Pass serialized data into Handlebars.js template
-//     res.render('dashboard', { 
-//         items, categories,
-//         logged_in: req.session.logged_in
-//      });
-//   } catch (err) {
-//     res.status(500).json(err);
-//   }
-// });
-
+    const categories = await categoryData.map((category) => category.get({ plain:true }));
+    console.log(categories, 'categories');
+    res.render('order', {
+      categories
+    });
+  } catch(err) {
+    res.status(400).json(err);
+  }
+});
 
 router.get('/login', (req, res) => {
     // If the user is already logged in, redirect the request to another route
