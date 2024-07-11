@@ -20,9 +20,8 @@
                     <div class="accordion-body row">
                         <div class="col-4">{{this.name}}</div>
                         <div class="col-1">${{this.price}}</div>
-                        <div class="col-3">{{this.status}}</div>
                         <div class="col-3">
-                            <button class="btn btn-dark btn-sm item-list" data-id=`{{this.id}}` type="button">Update status {{item.name}}</button>
+                            <button class="btn btn-dark btn-sm" data-id={{this.id}} id="update-button" type="button">{{this.status}}</button>
                         </div>
                     </div>
                     {{/each}}

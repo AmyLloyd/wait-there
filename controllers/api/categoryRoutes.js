@@ -6,18 +6,13 @@ const withAuth = require('../../utils/auth');
 //http request /api/categories/data/new
 router.post("/data/new", withAuth, async (req, res) => {
     try {
-        //Log the raw request body
-        console.log('Raw request body', req.body);
-
         if (!req.body.name) {
             return res.status(400).json({ message: 'Category name is required' });
         }
-
         const categoryData = await Category.create({
             name: req.body.name,
             admin_id: req.session.admin_id
         });
-        console.log(categoryData, "categoryData");
         res.status(200).json({ category: categoryData, message: "category submitted" });
       
     } catch (err) {

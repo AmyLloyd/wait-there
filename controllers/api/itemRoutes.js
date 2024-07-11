@@ -50,21 +50,27 @@ router.delete('/data/:id', withAuth, async (req, res) => {
     }
 });
 
-// UPDATE an item http request: api/items/:id
-router.put('/:id', withAuth, async (req, res) => {
+// UPDATE an item http request: api/items/:item_id
+router.put('/:item_id', withAuth, async (req, res) => {
     try {
-      const itemData = await Item.update(req.body, {
-        where: {
-          id: req.params.id,
+        console.log('here in update route');
+        console.log(req.params.item_id, 'req.params.item_id');
+        console.log('request.body.updateStatus', req.body.updateStatus);
+
+      const updatedItem = await Item.update(
+        {
+            status: req.body.updateStatus,
         },
-      });
-      if (!itemData[0]) {
-        res.status(404).json({ message: 'No item with this id!' });
-        return;
-      }
-      res.status(200).json(itemData);
+        {
+            where: {
+                    id: req.params.item_id,
+            },
+        });
+        console.log(updatedItem, 'updatedItem');
+        res.status(200).json(updatedItem);
     } catch (err) {
-      res.status(500).json(err);
+        console.error(err);
+        res.status(400).json(err);
     }
   });
 

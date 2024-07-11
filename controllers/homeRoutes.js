@@ -49,9 +49,6 @@ router.get('/dashboard', withAuth, async (req, res) => {
     const categories = categoryData.map((category) => 
       category.get({ plain:true }));
 
-    console.log(categories,'categories');
-    console.log(categories.items, 'categories.items');
-
     res.render('dashboard', {
       categories, 
       logged_in: req.session.logged_in
