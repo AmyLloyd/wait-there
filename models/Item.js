@@ -22,6 +22,7 @@ Item.init(
         status: {
             type:DataTypes.STRING,
             allowNull: false,
+            defaultValue:'Being prepared'
         },
         category_id: {
             type: DataTypes.INTEGER,
