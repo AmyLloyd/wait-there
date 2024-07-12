@@ -1,80 +1,20 @@
-
-<div class="row">
-    <div class='col-md-4 order-md-2' >
-        <h4>Home page</h4>
-        <ul>
-            {{#each item.category.name}}
-            <li class='list-group-item'>{{category.name}}</li>
-            {{/each}}
-        </ul>
+<section class="row">
+  <div style="background-image: url('/images/pexels-serkangoktay-90639.jpg'); background-repeat: no-repeat;
+    background-attachment: fixed; background-size: cover; min-height: 100vh;">
+    <h1 class="display-1">Wait there...</h1>
+    <p class="lead">
+        A simple ordering system built for small operations with big results.
+    </p>
+    <div class="dropdown">
+    <button class="btn btn-secondary dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false">
+        Got to order pages
+    </button>
+    <ul class="dropdown-menu">
+        {{#each admins}}
+        <li><a class="dropdown-item" href="/orders/{{this.id}}">{{this.username}}</a></li>
+        {{/each}}
+    </ul>
     </div>
-    <div class='col-md-8 order-md-1'>
-        <h4>Items to purchase</h4>
-
-        <div class="list-group" id="myList" role="tablist">
-            {{#each items as |item|}}
-            <a class="list-group-item list-group-item-action active" data-toggle="list" href="#home" role="tab">{{item.}}</a>
-            {{/each}}
-            <a class="list-group-item list-group-item-action" data-toggle="list" href="#profile" role="tab">Profile</a>
-            <a class="list-group-item list-group-item-action" data-toggle="list" href="#messages" role="tab">Messages</a>
-            <a class="list-group-item list-group-item-action" data-toggle="list" href="#settings" role="tab">Settings</a>
-        </div>
-
-        <div class="tab-content">
-            <div class="tab-pane active" id="home" role="tabpanel">
-                <div class="col-md-6">
-                    {{item.name}}
-                </div>
-                <div class="col-md-3">{{item.status}}</div>
-                <div class="col-md-3">
-                    <a>Add to order</a>
-                </div>
-            </div>
-            <div class="tab-pane" id="profile" role="tabpanel">Profile details</div>
-            <div class="tab-pane" id="messages" role="tabpanel">Messages details</div>
-            <div class="tab-pane" id="settings" role="tabpanel">Settings details</div>
-        </div>
-
-<script src="./js/homepage.js"></script>
-
-{{!-- 
-                <h5>Drinks</h5>
-                {{#each items as |item| }}
-                <div>
-                    <input class="form-check-input" type="checkbox" value="{{item.id}}" id="defaultCheck1">
-                    <label class="form-check-label" for="defaultCheck1">
-                        {{item.name}} {{item.status}}
-                    </label>
-                    <button class="btn btn-outline-success" type="submit">Add to order</button>
-                </div>
-                {{/each}}
-
-            </column>
-            <column class="col-md-4">
-                <h5>Hot food</h5>
-                {{#each items as |item| }}
-                <div class="form-check">
-                    <input class="form-check-input" type="checkbox" value="{{item.id}}" id="defaultCheck1">
-                    <label class="form-check-label" for="defaultCheck1">
-                        {{item.name}}
-                    </label>
-                </div>
-                {{/each}}
-            </column>
-            <column className="col-md-4">
-                <h5>Snacks</h5>
-                {{#each items as |item| }}
-                <div class="form-check">
-                    <input class="form-check-input" type="checkbox" value="{{item.id}}" id="defaultCheck1">
-                    <label class="form-check-label" for="defaultCheck1">
-                        {{item.name}}
-                    </label>
-                </div>
-                {{/each}} --}}
-            </column>
-        </row>
-
-    </div>
-</row>
-
-
+    <p>Photo by <a href="https://www.pexels.com/photo/grayscale-photo-2-person-sitting-in-a-separate-benches-on-the-seaside-90639/">Serkan Göktay</a></p>
+  </div>
+</section>

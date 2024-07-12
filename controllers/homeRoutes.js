@@ -3,23 +3,18 @@ const withAuth = require('../utils/auth');
 
 const { Admin, Item, Category } = require('../models');
 
-
 router.get('/', async (req, res) => {
   try {
     const adminData = await Admin.findAll({
-      exclude: [{ attributes: password }]
+      attributes: { exclude: ['password'] }
     });
+    const admins = adminData.map(admin => admin.get({ plain: true }));
 
-    const admins = adminData.map((admin) =>
-    admin.get({ plain:true }) );
-  
-  res.render('homepage', {
-    admins
-  });
-
-  } catch(err) {
-  res.status(400).json(err);
-  }});
+    res.render('homepage', { admins });
+  } catch (err) {
+    res.status(400).json(err);
+  }
+});
 
 router.get('/dashboard', withAuth, async (req, res) => {
   try {
