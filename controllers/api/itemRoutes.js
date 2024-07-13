@@ -3,16 +3,14 @@ const { Category, Item } = require('../../models');
 
 const withAuth = require('../../utils/auth');
 
-
-
 //http request /api/items/data
 router.post('/data', withAuth, async (req, res) => {
     try {
         console.log('Raw request body', req.body);
 
-        if(!req.body.name) {
-            return res.status(400).json({ message: `Item name can't be found`});
-        };
+        // if(!req.body.name) {
+        //     return res.status(400).json({ message: `Item name can't be found`});
+        // };
 
         const itemData = await Item.create({
             name: req.body.name,

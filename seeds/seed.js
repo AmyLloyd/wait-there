@@ -1,10 +1,10 @@
 const sequelize = require('../config/connection');
-const { Admin, Order, Item, OrderItem, Category } = require('../models');
+const { Admin, CustomerOrder, Item, OrderItem, Category } = require('../models');
 
 const adminSeedData = require('./adminSeedData.json');
 const categorySeedData = require('./categorySeedData.json');
 const itemSeedData = require('./itemSeedData.json');
-const orderSeedData = require('./orderSeedData.json');
+const customerOrderSeedData = require('./customerOrderSeedData.json');
 const orderItemSeedData = require('./orderItemSeedData');
 
 
@@ -19,7 +19,7 @@ const seedDatabase = async () => {
     console.log('Categories seeded successfully');
     const items = await Item.bulkCreate(itemSeedData);
     console.log('Items seeded successfully.');
-    const orders = await Order.bulkCreate(orderSeedData);
+    const customerOrders = await CustomerOrder.bulkCreate(customerOrderSeedData);
     console.log('Orders seeded successfully.');
     const orderItems = await OrderItem.bulkCreate(orderItemSeedData);
    

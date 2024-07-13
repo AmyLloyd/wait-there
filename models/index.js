@@ -1,18 +1,18 @@
 const Admin = require('./Admin');
-const Order = require('./Order');
+const CustomerOrder = require('./CustomerOrder');
 const Item = require('./Item');
 const OrderItem = require('./OrderItem');
 const Category = require('./Category');
 
-Order.belongsToMany(Item, {
+CustomerOrder.belongsToMany(Item, {
     through: 'orderItem',
     as:'items',
-    foreignKey:'order_id'
+    foreignKey:'customerOrder_id'
 });
 
-Item.belongsToMany(Order, {
+Item.belongsToMany(CustomerOrder, {
     through:'orderItem',
-    as:'orders',
+    as:'customerOrders',
     foreignKey: 'item_id'
 });
 
@@ -34,4 +34,4 @@ Category.hasMany(Item, {
 Item.belongsTo(Category, {
 });
 
-module.exports = { Admin, Order, Item, OrderItem, Category };
+module.exports = { Admin, CustomerOrder, Item, OrderItem, Category };

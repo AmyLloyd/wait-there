@@ -1,7 +1,7 @@
 const router = require('express').Router();
 const withAuth = require('../utils/auth');
 
-const { Admin, Item, Category } = require('../models');
+const { Admin, Item, Category, Order, OrderItem } = require('../models');
 
 router.get('/', async (req, res) => {
   try {
@@ -18,6 +18,8 @@ router.get('/', async (req, res) => {
 
 router.get('/dashboard', withAuth, async (req, res) => {
   try {
+    console.log("here");
+    console.log('req.session.admin_id', req.session.admin_id);
     const categoryData = await Category.findAll({
       where: {
         admin_id: req.session.admin_id,
@@ -32,14 +34,28 @@ router.get('/dashboard', withAuth, async (req, res) => {
               "status",
               "category_id"
           ],
+          // include: [
+          //   { 
+          //     model: Order,
+          //     through: OrderItem,
+          //     as: "orders",
+          //     attributes: [
+          //       "id",
+          //       "reference_name",
+          //       "date_created",
+          //       "location",
+          //       "status"
+          //     ]
+          //   }
+          // ],
         },
       ],
     });
-
-    if(!categoryData || categoryData.length === 0) {
-      res.status(404).json({ message: "No categories found" });
-      return;
-    }
+    // console.log(categoryData, "categoryData");
+    //     if(!categoryData || categoryData.length === 0) {
+    //   res.status(404).json({ message: "No categories found" });
+    //   return;
+    // }
    
     const categories = categoryData.map((category) => 
       category.get({ plain:true }));
@@ -50,6 +66,7 @@ router.get('/dashboard', withAuth, async (req, res) => {
     });
 
   } catch (err) {
+    console.error(err);
     res.status(500).json(err);
   }
 });
@@ -58,12 +75,12 @@ router.get('/orders/:id', async (req, res) => {
   try {
     const categoryData = await Category.findAll({ 
       where: { admin_id: req.params.id},
-      include: [{ model: Item }],
+      include: [{ model: Item,
+      }],
     });
+    
     console.log('categoryData', categoryData);
-
     const categories = await categoryData.map((category) => category.get({ plain:true }));
-    console.log(categories, 'categories');
     res.render('order', {
       categories
     });

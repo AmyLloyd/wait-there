@@ -12,7 +12,9 @@
   </head>
   <body>
     <header>
-        {{> nav}}
+      {{#if logged_in}}
+          {{> nav}}
+      {{/if}}
     </header>
     <div class="container-fluid">
         <main>
