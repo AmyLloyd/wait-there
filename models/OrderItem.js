@@ -27,6 +27,11 @@ OrderItem.init(
                 unique: false
             }
         },
+        quantity: {
+            type: DataTypes.INTEGER,
+            defaultValue:1,
+            allowNull:false
+        }
     },
     {
         sequelize,

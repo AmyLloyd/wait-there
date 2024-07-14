@@ -9,7 +9,7 @@ CustomerOrder.init(
             type: DataTypes.INTEGER,
             allowNull: false, 
             primaryKey: true,
-            autoincrement: true,
+            autoIncrement: true,
         },
         reference_name: {
             type:DataTypes.STRING,
@@ -20,15 +20,15 @@ CustomerOrder.init(
             defaultValue:"Being prepared",
             allowNull: false,
         },
-        location: {
-            type:DataTypes.STRING,
-            allowNull: false,
-        },
         date_created: {
             type: DataTypes.DATE,
             allowNull: false,
             defaultValue: DataTypes.NOW,
         },
+        total_amount: {
+            type: DataTypes.DECIMAL,
+            allowNull: false
+        }
     },
     {
         sequelize,

@@ -7,13 +7,15 @@ const Category = require('./Category');
 CustomerOrder.belongsToMany(Item, {
     through: 'orderItem',
     as:'items',
-    foreignKey:'customerOrder_id'
+    foreignKey:'customerOrder_id',
+    // unique:false
 });
 
 Item.belongsToMany(CustomerOrder, {
     through:'orderItem',
     as:'customerOrders',
-    foreignKey: 'item_id'
+    foreignKey: 'item_id',
+    // unique:false
 });
 
 Admin.hasMany(Category, {
