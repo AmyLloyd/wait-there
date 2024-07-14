@@ -1,5 +1,4 @@
 //identify root element for rendering orderItem
-
 const orderElId = document.getElementById("orderEl-id");
 const orderElName = document.getElementById("orderEl-name");
 const orderElStatus = document.getElementById("orderEl-status");
@@ -21,14 +20,34 @@ const addItem = (button) => {
     console.log('ID:', id);
     console.log('Name:', name);
     console.log('Price:', price);
+    if(status === "Available") {
+        let itemEl = document.createElement("div");
+        let nameEl = document.createElement("h5");
+        let quantityEl = document.createElement("div");
+        let priceEl = document.createElement("div");
+        let button = document.createElement("button");
+        
+        orderElId.appendChild(itemEl);
+        itemEl.append(nameEl);
+        nameEl.textContent = name;
+        itemEl.append(quantityEl);
+        quantityEl.textContent = 1;
+        itemEl.append(priceEl);
+        priceEl.textContent = price;
+        itemEl.append(button);
+        button.textContent = "Remove";
+        itemEl.setAttribute("data-id", id);
+         //If element already exists with this id or text content, change quantity to +1
+        itemEl.setAttribute("data-quantity", 1)
+        itemEl.setAttribute("class", "row");
+        nameEl.setAttribute("class", "col-5");
+        quantityEl.setAttribute("class", "col-1");
+        priceEl.setAttribute("class", "col-3");
+        button.setAttribute("type", "button");
+        button.setAttribute("class", "btn btn-dark col-2");
 
-    orderElId.setAttribute("data-id", id);
-    
-    orderElName.textContent = name;
-    orderElPrice.textContent = price;
-    orderElStatus.textContent = status;
-  
+    } else {
+        alert(name, "not available");
+    }
 };
-// No need to get the button element by ID here as it's passed directly from the HTML
 
-let items = [];

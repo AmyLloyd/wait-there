@@ -28,34 +28,12 @@
                         <div class="col-4">{{this.name}}</div>
                         <div class="col-1">${{this.price}}</div>
                         <div class="col-3">
-                            <button class="btn btn-dark btn-sm update-button" data-id={{this.id}} type="button">{{this.status}}</button>
+                            <button type="button" class="btn btn-dark btn-sm" data-id="{{this.id}}" data-name="{{this.name}}" data-price="{{this.price}}" data-status="{{this.status}}" onClick="addItem(this)">Add</button>
                         </div>
                     </div>
                     {{/each}}
                 </div>
-         
             </div>
-            
-            
-            {{!-- <div class="accordion-item">
-                <h2 class="accordion-header" id="heading-{{@index}}">
-                    <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#flush-collapse-{{@index}}" aria-expanded="false" aria-controls="#flush-collapse-{{@index}}">
-                 {{this.name}}
-                    </button>
-                </h2>
-              
-                <div id="flush-collapse-{{@index}}" class="accordion-collapse collapse" data-bs-parent="#accordionFlushExample">
-                    {{#each this.items}}
-                    <div class="accordion-body row">
-                        <div class="col-4" id="itemName">{{this.name}}</div>
-                        <div class="col-2" id="itemPrice">${{this.price}}</div>
-                        <div class="col-3" id="itemStatus">{{this.status}}</div>
-                            <button type="button" class="btn btn-dark btn-sm" data-id="{{this.id}}" data-name="{{this.name}}" data-price="{{this.price}}" data-status="{{this.status}}" onClick="addItem(this)">Add</button>
-                        </div>
-                    </div>                    
-                    {{/each}}
-                </div>
-            </div> --}}
         {{/each}}
         </div>
     </div>
