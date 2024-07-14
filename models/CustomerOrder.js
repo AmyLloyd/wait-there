@@ -26,7 +26,7 @@ CustomerOrder.init(
             defaultValue: DataTypes.NOW,
         },
         total_amount: {
-            type: DataTypes.DECIMAL,
+            type: DataTypes.DECIMAL(4,2),
             allowNull: false
         }
     },

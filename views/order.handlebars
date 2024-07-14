@@ -5,9 +5,11 @@
 <section class="row">
     <div class="col-md-4">
         <h4>My order</h4>
-        <ul>
-            <li>Drink 1</li>
-            <li>Hot food 1</li>
+            <div class="row" id="orderEl-id">
+                <div class="col-3" id="orderEl-name"></div>
+                <div class="col-3" id="orderEl-price"></div>
+                <div class="col-3" id="orderEl-status"></div>
+            </li>
         </ul>
     </div>
     <div class="col-md-6 order-md-2">
@@ -15,8 +17,8 @@
         <div class="accordion accordion-flush" id="accordionFlushExample">
             {{#each categories}}
             <div class="accordion-item">
-                <h2 class="accordion-header">
-                    <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#flush-collapse-{{@index}}" aria-expanded="flase" aria-controls="flush-flush-collapse-{{@index}}">
+                <h2 class="accordion-header" id="heading-{{@index}}">
+                    <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#flush-collapse-{{@index}}" aria-expanded="false" aria-controls="#flush-collapse-{{@index}}">
                  {{this.name}}
                     </button>
                 </h2>
@@ -24,11 +26,10 @@
                 <div id="flush-collapse-{{@index}}" class="accordion-collapse collapse" data-bs-parent="#accordionFlushExample">
                     {{#each this.items}}
                     <div class="accordion-body row">
-                        <div class="col-4">{{this.name}}</div>
-                        <div class="col-2">${{this.price}}</div>
-                        <div class="col-3">{{this.status}}</div>
-                        <div class="col-2">
-                            <button type="button" class="btn btn-dark btn-sm">Add</button>
+                        <div class="col-4" id="itemName">{{this.name}}</div>
+                        <div class="col-2" id="itemPrice">${{this.price}}</div>
+                        <div class="col-3" id="itemStatus">{{this.status}}</div>
+                            <button type="button" class="btn btn-dark btn-sm" data-id="{{this.id}}" data-name="{{this.name}}" data-price="{{this.price}}" data-status="{{this.status}}" onClick="addItem(this)">Add</button>
                         </div>
                     </div>                    
                     {{/each}}
@@ -41,3 +42,5 @@
     </div>
 
 </section>
+
+  <script src="/js/customerOrder.js"></script>
