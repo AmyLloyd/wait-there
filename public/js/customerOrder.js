@@ -45,9 +45,16 @@ const addItem = (button) => {
         priceEl.setAttribute("class", "col-3");
         button.setAttribute("type", "button");
         button.setAttribute("class", "btn btn-dark col-2");
-
+        button.setAttribute("onclick", "removeEl(this)");
     } else {
         alert(name, "not available");
     }
 };
 
+//if orderElId has first child... submit button visible else orderElId.text Content = Selected items will appear here. 
+
+const removeEl = (button) => {
+    const parentEl = button.closest(".row");
+    parentEl.remove();
+    alert("Item removed");
+}
