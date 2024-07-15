@@ -36,4 +36,12 @@ Category.hasMany(Item, {
 Item.belongsTo(Category, {
 });
 
+Admin.hasMany(CustomerOrder, {
+    foreignKey: 'admin_id',
+    onDelete: 'CASCADE'
+})
+
+CustomerOrder.belongsTo(Admin, {
+});
+
 module.exports = { Admin, CustomerOrder, Item, OrderItem, Category };

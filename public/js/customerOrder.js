@@ -45,7 +45,7 @@ const addItem = (button) => {
         quantityEl.setAttribute("class", "col-1");
         priceEl.setAttribute("class", "col-3");
         button.setAttribute("type", "button");
-        button.setAttribute("class", "btn btn-dark col-2");
+        button.setAttribute("class", "btn btn-dark col-3");
         button.setAttribute("onclick", "removeEl(this)");
     } else {
         alert(name, "not available");

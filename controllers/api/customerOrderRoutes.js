@@ -3,7 +3,7 @@ const { CustomerOrder, Item, OrderItem } = require('../../models');
 
 // https request /api/customerOrders/data
 
-router.post('/data', async (req, res) => {
+router.post('/data/:id', async (req, res) => {
   console.log('here in route');
   const { items, total_amount, reference_name  } = req.body; // Expecting an array of item IDs and the total amount
 
@@ -11,12 +11,14 @@ router.post('/data', async (req, res) => {
     return res.status(400).json({ error: 'All details are required' });
   }
 
+  console.log(req.params.id, "req.params.id");
   try {
     const newOrder = await CustomerOrder.create({
       total_amount: req.body.total_amount,
-      reference_name: req.body.reference_name
+      reference_name: req.body.reference_name,
+      admin_id: req.params.id
     });
-
+    console.log(req.params.id, "req.params.id");
     console.log(newOrder, "newOrder");
 
     // Add items to the order
@@ -29,8 +31,7 @@ router.post('/data', async (req, res) => {
       // Create entry in OrderItems with quantity
       await OrderItem.create({
         customerOrder_id: newOrder.id,
-        item_id: existingItem.id,
-        quantity: item.quantity
+        item_id: existingItem.id
       });
     }
 
