@@ -4,6 +4,7 @@ const { CustomerOrder, Item, OrderItem } = require('../../models');
 // https request /api/customerOrders/data
 
 router.post('/data', async (req, res) => {
+  console.log('here in route');
   const { items, total_amount, reference_name  } = req.body; // Expecting an array of item IDs and the total amount
 
   if (!items || !total_amount || !reference_name ) {
@@ -20,9 +21,9 @@ router.post('/data', async (req, res) => {
 
     // Add items to the order
     for (const item of items) {
-      const existingItem = await Item.findByPk(item.id);
+      const existingItem = await Item.findByPk(item);
       if (!existingItem) {
-        return res.status(400).json({ error: `Item with ID ${item.id} not found` });
+        return res.status(400).json({ error: `Item with ID ${item} not found` });
       }
 
       // Create entry in OrderItems with quantity

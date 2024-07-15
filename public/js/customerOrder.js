@@ -62,26 +62,61 @@ const removeEl = (button) => {
 
 var reviewEl = document.querySelector("#review");
 
-const reviewOrder = (event) => {
-    event.preventDefault();
+    // let response = "Thank you for your submission " + referenceName.value + ".";
+    // submissionResponseEl.textContent = response;
+
+//collect values
+const collectValues = () => {
     const orderElement = document.getElementById('orderEl-id');
-    console.log(orderElement, "orderElement");
     let id;
-    let idArray = [];
+    let items = [];
     let quantity;
-    let quantityArray=[];
-    console.log(orderElement.children, "orderElement.children");
+    let quantities=[];
+    let reference_name = "";
+ 
     for(i=0; i < orderElement.children.length; i++ ) {
         id = orderElement.children[i].getAttribute('data-id');
         quantity = orderElement.children[i].getAttribute('data-quantity');
-        idArray.push(id);
-        quantityArray.push(quantity);
+        items.push(id);
+        quantities.push(quantity);
     }
    
-    console.log(idArray, "idArray");
-    console.log(quantityArray, "quantityArray");
+    console.log(items, "items");
+    console.log(quantities, "quantities");
+    reference_name = refName.value;
+    console.log(reference_name, "reference_name");
+    return { reference_name, items };
+}
+
+//Submit order
+const submitOrder = async ({ reference_name, items }) => {
+    console.log('here in submit order');
+    console.log(reference_name);
+    console.log(items);
+    if(reference_name && items.length) {
+        console.log(reference_name + " and " + items, "reference_name and items");
+        const total_amount = 10.00;
+
+        const response = await fetch(`/api/customerOrders/data`, {
+            method:'POST',
+            body: JSON.stringify({ reference_name, items, total_amount}),
+            headers: {
+                'Content-Type': 'application/json',
+            },
+        });
+        if(response.ok) {
+            alert("Order submitted for " + reference_name);
+            // document.location.replace('/confirmation');
+        } else {
+            alert("Order submission failed.");
+        };
+    }
+}
+
+const reviewOrder = (event) => {
+    event.preventDefault();
+    const { reference_name, items, quantities } = collectValues();
+    submitOrder({ reference_name, items, quantities });
 };
-    // let response = "Thank you for your submission " + referenceName.value + ".";
-    // submissionResponseEl.textContent = response;
 
 reviewEl.addEventListener("click", reviewOrder);
