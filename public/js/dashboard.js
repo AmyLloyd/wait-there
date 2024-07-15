@@ -1,6 +1,7 @@
 $(document).ready(function() {
     $(document).on('click', '.update-button', function(event) {
         //prevents dropdown from closing
+        event.preventDefault();
         event.stopPropagation();
         const button = $(this);
         const id = button.data("id");
@@ -19,6 +20,7 @@ $(document).ready(function() {
 });
 
 const updateItem = async (id, updateStatus, button) => {
+    
     if (id && updateStatus) {
         console.log(updateStatus, 'updateStatus');
 
@@ -70,9 +72,3 @@ const createItem = async(name, price, status, category_id) => {
         console.log("Check new item details");
     };
 };
-
-// $(document).ready(function() {
-//     $(document).on('click', '#add-item', function(event) {
-//         const 
-//     })
-// })

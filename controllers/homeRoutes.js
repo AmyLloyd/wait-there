@@ -18,8 +18,6 @@ router.get('/', async (req, res) => {
 
 router.get('/dashboard', withAuth, async (req, res) => {
   try {
-    console.log("here");
-    console.log('req.session.admin_id', req.session.admin_id);
     const categoryData = await Category.findAll({
       where: {
         admin_id: req.session.admin_id,

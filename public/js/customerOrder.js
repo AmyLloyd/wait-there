@@ -20,6 +20,7 @@ const addItem = (button) => {
     console.log('ID:', id);
     console.log('Name:', name);
     console.log('Price:', price);
+
     if(status === "Available") {
         let itemEl = document.createElement("div");
         let nameEl = document.createElement("h5");
@@ -53,8 +54,34 @@ const addItem = (button) => {
 
 //if orderElId has first child... submit button visible else orderElId.text Content = Selected items will appear here. 
 
+//remove order item
 const removeEl = (button) => {
     const parentEl = button.closest(".row");
     parentEl.remove();
-    alert("Item removed");
-}
+};
+
+var reviewEl = document.querySelector("#review");
+
+const reviewOrder = (event) => {
+    event.preventDefault();
+    const orderElement = document.getElementById('orderEl-id');
+    console.log(orderElement, "orderElement");
+    let id;
+    let idArray = [];
+    let quantity;
+    let quantityArray=[];
+    console.log(orderElement.children, "orderElement.children");
+    for(i=0; i < orderElement.children.length; i++ ) {
+        id = orderElement.children[i].getAttribute('data-id');
+        quantity = orderElement.children[i].getAttribute('data-quantity');
+        idArray.push(id);
+        quantityArray.push(quantity);
+    }
+   
+    console.log(idArray, "idArray");
+    console.log(quantityArray, "quantityArray");
+};
+    // let response = "Thank you for your submission " + referenceName.value + ".";
+    // submissionResponseEl.textContent = response;
+
+reviewEl.addEventListener("click", reviewOrder);
