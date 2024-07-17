@@ -1,43 +1,49 @@
-//identify root element for rendering orderItem
+// //identify root element for rendering orderItem
 const orderElId = document.getElementById("orderEl-id");
-const orderElName = document.getElementById("orderEl-name");
-const orderElStatus = document.getElementById("orderEl-status");
-const orderElPrice = document.getElementById("orderEl-price");
+// const orderElName = document.getElementById("orderEl-name");
+// const orderElStatus = document.getElementById("orderEl-status");
+// const orderElPrice = document.getElementById("orderEl-price");
 
-//identify positions of item details
-const orderItemId = document.getElementById("#itemId");
-const orderItemName = document.getElementById("#itemName");
-const orderItemPrice = document.getElementById("#itemPrice");
-const orderItemStatus = document.getElementById("#itemStatus");
+// //identify positions of item details
+// const orderItemId = document.getElementById("#itemId");
+// const orderItemName = document.getElementById("#itemName");
+// const orderItemPrice = document.getElementById("#itemPrice");
+// const orderItemStatus = document.getElementById("#itemStatus");
 
 
 //define variables to be set in localStorage
-let cart = {};
-let count = 0;
-let sum = 0;
+let cart = JSON.parse(localStorage.getItem('cart')) || {};
+let sum = parseFloat(localStorage.getItem('sum')) || 0;
+let count = parseInt(localStorage.getItem('count')) || 0;
 let cartRef = "";
 //update DOM with current values in localStorage
 
-if (localStorage.getItem("count")) {
-    count = parseInt(localStorage.getItem("count"));
-};
+// if (localStorage.getItem("count")) {
+//     count = parseInt(localStorage.getItem("count"));
+// };
 
-if (localStorage.getItem("sum")) {
-    sum = parseInt(localStorage.getItem("sum"));
-};
+// if (localStorage.getItem("sum")) {
+//     sum = parseInt(localStorage.getItem("sum"));
+// };
 
-if (localStorage.getItem("cart")) {
-    cart = JSON.parse(localStorage.getItem("cart"));
-};
+// if (localStorage.getItem("cart")) {
+//     cart = JSON.parse(localStorage.getItem("cart"));
+// };
 
+// if (localStorage.getItem("cartRef")) {
+//     cartRef = JSON.parse(localStorage.getItem("cartRef"));
+// };
+    
 //add item to localStorage
-const addItem = (button) => {
-    let id = button.dataset.id;
-    let price = button.dataset.price;
-    let status = button.dataset.status;
-    let name = button.dataset.name;
-
-    if (id in cart) {
+const addItem = (addButton) => {
+    // Extract data attributes from the button
+    console.log(addButton, 'addButton');
+    const id = addButton.getAttribute('data-id');
+    const price = parseFloat(addButton.getAttribute('data-price'));
+    const status = addButton.getAttribute('data-status');
+    const name = addButton.getAttribute('data-name');
+    
+    if (cart[id]) {
         cart[id].qty++;
     } else {
         let cartItem = {
@@ -50,27 +56,39 @@ const addItem = (button) => {
     }
     count++;
     sum +- price;
-    console.log(cart, "cart");
-    localStorage.setItem("cart", JSON.stringify(cart));
-    updateCart();
-    renderItem();
-};
 
-const updateCart = () => {
-    document.getElementById("sum").textContent = sum;
-    document.getElementById("count").textContent = count;
+    localStorage.setItem("cart", JSON.stringify(cart));
     localStorage.setItem("sum", sum);
     localStorage.setItem("count", count);
-}
-//render items from localStorage
-const renderItem = () => {
-    if (localStorage.getItem("cart")) {
-        cart = JSON.parse(localStorage.getItem("cart"));
-    };
 
+    updateCart();
+    renderCart();
+};
+
+// Event listener for the remove button
+document.querySelectorAll('.add-button').forEach(button => {
+    button.addEventListener('click', (event) => addItem(event.currentTarget));
+});
+
+const updateCart = () => {
+    document.getElementById('sum').textContent = sum.toFixed(2);
+    document.getElementById('count').textContent = count;
+};
+
+const storeRef = (refInput) => {
+    const refName = refInput.trim(); 
+    const refEl = document.createElement("div");
+    refEl.textContent = refName;
+    refAnchor.append(refEl);
+    localStorage.setItem("cartRef", JSON.stringify(refName));
+};
+//render items from localStorage
+const renderCart = () => {
+    while (orderElId.hasChildNodes()) {
+    orderElId.removeChild(orderElId.firstChild);
+    }   
     for(let id in cart){
         let item = cart[id];
-        console.log(item, "item in localStorage");
         if(item.status = "Available") {
             let itemEl = document.createElement("div");
             let nameEl = document.createElement("h5");
@@ -95,47 +113,84 @@ const renderItem = () => {
             quantityEl.setAttribute("class", "col-1");
             priceEl.setAttribute("class", "col-3");
             button.setAttribute("type", "button");
-            button.setAttribute("class", "btn btn-dark col-3 update-order-button");
-            button.setAttribute("onclick", "removeEl(this)");
+            button.setAttribute("class", "btn btn-dark col-3 remove-button");
+           
         } else {
             console.log(item.name, "Item not available");
         }
-    }
+    };
 };
 
 //if orderElId has first child... submit button visible else orderElId.text Content = Selected items will appear here. 
 
-//remove order item
-const removeEl = (button) => {
-    const parentEl = button.closest(".row");
+//iterate over the array of objects cart and collect all cart.id into one array.
+
+// Function to update the cart and sum in local storage
+const updateLocalStorage = (cart, sum) => {
+    localStorage.setItem("cart", JSON.stringify(cart));
+    localStorage.setItem("sum", JSON.stringify(sum));
+};
+
+// Function to remove order item from the page and from local storage
+const removeEl = (event) => {
+    event.preventDefault();
+    // Find the closest parent element with class 'row'
+    console.log('here');
+    const parentEl = event.target.closest(".row");
     console.log(parentEl, 'parentEl');
+
+    // Remove the parent element from the DOM
     parentEl.remove();
+
+    // Get the data-id attribute from the button
+    const id = button.dataset.id;
+    console.log(id);
+
+    // Find the item in the cart to get its price and quantity
+    const item = cart.find(item => item.id === id);
+
+    if (item) {
+        // Update the sum
+        sum -= item.price;
+
+        // Remove the item from the cart
+        cart = cart.filter(item => item.id !== id);
+
+        // Update local storage
+        updateLocalStorage(cart, sum);
+
+        console.log(cart, 'updated cart');
+        console.log(sum, 'updated sum');
+
+        // Call updateCart to reflect changes on the page
+        updateCart();
+    } else {
+        console.error('Item not found in the cart');
+    }
 };
-const refInput = document.getElementById("refInput");
+
+// Event listener for the remove button
+document.querySelectorAll('.remove-button').forEach(button => {
+    button.addEventListener('click', (event) => removeEl(event.currentTarget));
+});
 
 
-const storeRef = (refName) => {
-    localStorage.setItem("cartRef", refName);
-    const refEl = document.createElement("div");
-    refEl.textContent = refName;
-    refInput.append(refEl);
-    console.log("Reference name is now: " + refName);
-};
+const submitOrder = async (event) => {
+    console.log("submitOrder");
+    event.preventDefault();
+    console.log(cart, "cart");
 
-const submitOrder = async (event, cartRef, cart) => {
-    // if (localStorage.getItem("cart")) {
-    //     cart = JSON.parse(localStorage.getItem("cart"));
-    // };
-    // if(localStorage.getItem("cartRef")) {
-    //     cartRef = JSON.parse(localStorage.getItem("cartRef"));
-    // };
-    // if (localStorage.getItem("sum")) {
-    //     sum = parseInt(localStorage.getItem("sum"));
-    // };
+    const items = [];
+
+    cart.forEach(obj => {
+        items.push(obj.id);
+    });
+        
+    console.log(cartRef, items, sum);
 
     const response = await fetch(`/api/customerOrders/data/:id`, {
         method:'POST',
-        body: JSON.stringify({ cartRef, cart, sum}),
+        body: JSON.stringify({ items, sum, cartRef }),
         headers: {
             'Content-Type': 'application/json',
         },

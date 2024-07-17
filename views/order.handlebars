@@ -5,6 +5,7 @@
 <section class="row">
     <div class="col-md-4">
         <h4>My order</h4>
+          <div  id="refAnchor"></div>
         <div class="row mb-3" id="orderEl-id">
         </div>
         <div>Total cost:<span id="sum"></span></div>
@@ -12,8 +13,9 @@
         
         <form class="mb-3 row" id="refNameForm" submit="reviewOrder">
             <label for="refName" class="col-form-label">Reference name:</label>
-            <input type="text" class="form-control" name="refName" id="refInput" value="" onchange="storeRef(this.value)">
+            <input type="text" class="form-control" name="refName" onchange="storeRef(this.value)">
         </form>
+      
         <button class="btn btn-dark" type="submit" id="submitBtn">Submit order</button>
     <div class="col-md-6 order-md-2">
         <h4>Menu</h4>
@@ -21,7 +23,7 @@
             {{#each categories}}
             <div class="accordion-item">
                 <h2 class="accordion-header" id="heading-{{@index}}">
-                    <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#flush-collapse-{{@index}}" aria-expanded="false" aria-controls="#flush-collapse-{{@index}}">
+                    <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#flush-collapse-{{@index}}" aria-expanded="false" aria-controls="flush-collapse-{{@index}}">
                  {{this.name}}
                     </button>
                 </h2>
@@ -31,7 +33,7 @@
                         <div class="col-4">{{this.name}}</div>
                         <div class="col-4">${{this.price}}</div>
                         <div class="col-4">
-                            <button type="button" class="btn btn-dark btn-sm" data-id="{{this.id}}" data-name="{{this.name}}" data-price="{{this.price}}" data-status="{{this.status}}" onClick="addItem(this)">Add</button>
+                            <button type="button" class="btn btn-dark btn-sm add-button" data-id="{{this.id}}" data-name="{{this.name}}" data-price="{{this.price}}" data-status="{{this.status}}">Add</button>
                         </div>
                     </div>
                     {{/each}}
