@@ -9,11 +9,12 @@
         </div>
         <div>Total cost:<span id="sum"></span></div>
         <div>Total number of items:<span id="count"></span></div>
+        
         <form class="mb-3 row" id="refNameForm" submit="reviewOrder">
             <label for="refName" class="col-form-label">Reference name:</label>
-            <input type="text" class="form-control" name="refName" id="refName" value="">
-            <input type="submit" value="Submit" id="review">
+            <input type="text" class="form-control" name="refName" id="refInput" value="" onchange="storeRef(this.value)">
         </form>
+        <button class="btn btn-dark" type="submit" id="submitBtn">Submit order</button>
     <div class="col-md-6 order-md-2">
         <h4>Menu</h4>
         <div class="accordion accordion-flush" id="accordionFlushExample">

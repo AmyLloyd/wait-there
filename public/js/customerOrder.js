@@ -15,7 +15,7 @@ const orderItemStatus = document.getElementById("#itemStatus");
 let cart = {};
 let count = 0;
 let sum = 0;
-
+let cartRef = "";
 //update DOM with current values in localStorage
 
 if (localStorage.getItem("count")) {
@@ -62,9 +62,8 @@ const updateCart = () => {
     localStorage.setItem("sum", sum);
     localStorage.setItem("count", count);
 }
-
+//render items from localStorage
 const renderItem = () => {
-    let orderList = {};
     if (localStorage.getItem("cart")) {
         cart = JSON.parse(localStorage.getItem("cart"));
     };
@@ -104,43 +103,6 @@ const renderItem = () => {
     }
 };
 
-// const addItem = (button) => {
-//     const id = button.getAttribute('data-id');
-//     const name = button.getAttribute('data-name');
-//     const price = button.getAttribute('data-price');
-//     const status = button.getAttribute('data-status');
-
-//     if(status === "Available") {
-//         let itemEl = document.createElement("div");
-//         let nameEl = document.createElement("h5");
-//         let quantityEl = document.createElement("div");
-//         let priceEl = document.createElement("div");
-//         let button = document.createElement("button");
-        
-//         orderElId.appendChild(itemEl);
-//         itemEl.append(nameEl);
-//         nameEl.textContent = name;
-//         itemEl.append(quantityEl);
-//         quantityEl.textContent = 1;
-//         itemEl.append(priceEl);
-//         priceEl.textContent = price;
-//         itemEl.append(button);
-//         button.textContent = "Remove";
-//         itemEl.setAttribute("data-id", id);
-//          //If element already exists with this id or text content, change quantity to +1
-//         itemEl.setAttribute("data-quantity", 1)
-//         itemEl.setAttribute("class", "row");
-//         nameEl.setAttribute("class", "col-5");
-//         quantityEl.setAttribute("class", "col-1");
-//         priceEl.setAttribute("class", "col-3");
-//         button.setAttribute("type", "button");
-//         button.setAttribute("class", "btn btn-dark col-3 update-order-button");
-//         button.setAttribute("onclick", "removeEl(this)");
-//     } else {
-//         console.log(name, "Item not available");
-//     }
-// };
-
 //if orderElId has first child... submit button visible else orderElId.text Content = Selected items will appear here. 
 
 //remove order item
@@ -149,68 +111,41 @@ const removeEl = (button) => {
     console.log(parentEl, 'parentEl');
     parentEl.remove();
 };
-
-var reviewEl = document.querySelector("#review");
-
-    // let response = "Thank you for your submission " + referenceName.value + ".";
-    // submissionResponseEl.textContent = response;
-
-//collect values
-const collectValues = () => {
-    const orderElement = document.getElementById('orderEl-id');
-    if(!orderElement.children.length) {
-        alert("Add items to order");
-        return;
-    };
-
-    let id;
-    let items = [];
-    let quantity;
-    let quantities=[];
-    let reference_name = "";
- 
-    for(i=0; i < orderElement.children.length; i++ ) {
-        id = orderElement.children[i].getAttribute('data-id');
-        quantity = orderElement.children[i].getAttribute('data-quantity');
-        items.push(id);
-        quantities.push(quantity);
-    }
+const refInput = document.getElementById("refInput");
 
 
-    return { reference_name, items };
-}
-
-//Submit order
-const submitOrder = async ({ reference_name, items }) => {
-    console.log(reference_name + " and " + "items.length:" + items.length);
-    if(!reference_name || !items.length) {
-        console.log("Order details missing");
-        return;
-    }
-    if(reference_name && items.length) {
-        console.log(reference_name + " and " + items, "reference_name and items");
-        const total_amount = 10.00;
-
-        const response = await fetch(`/api/customerOrders/data/:id`, {
-            method:'POST',
-            body: JSON.stringify({ reference_name, items, total_amount}),
-            headers: {
-                'Content-Type': 'application/json',
-            },
-        });
-        if(response.ok) {
-            alert("Order submitted for " + reference_name);
-            // document.location.replace('/confirmation');
-        } else {
-            alert("Order submission failed.");
-        };
-    }
-}
-
-const reviewOrder = (event) => {
-    event.preventDefault();
-    const { reference_name, items, quantities } = collectValues();
-    submitOrder({ reference_name, items, quantities });
+const storeRef = (refName) => {
+    localStorage.setItem("cartRef", refName);
+    const refEl = document.createElement("div");
+    refEl.textContent = refName;
+    refInput.append(refEl);
+    console.log("Reference name is now: " + refName);
 };
 
-reviewEl.addEventListener("click", reviewOrder);
+const submitOrder = async (event, cartRef, cart) => {
+    // if (localStorage.getItem("cart")) {
+    //     cart = JSON.parse(localStorage.getItem("cart"));
+    // };
+    // if(localStorage.getItem("cartRef")) {
+    //     cartRef = JSON.parse(localStorage.getItem("cartRef"));
+    // };
+    // if (localStorage.getItem("sum")) {
+    //     sum = parseInt(localStorage.getItem("sum"));
+    // };
+
+    const response = await fetch(`/api/customerOrders/data/:id`, {
+        method:'POST',
+        body: JSON.stringify({ cartRef, cart, sum}),
+        headers: {
+            'Content-Type': 'application/json',
+        },
+    });
+    if(response.ok) {
+        alert("Thank you " + cartRef + "for your order. It will be delivered shortly.");
+        // document.location.replace('/confirmation');
+    } else {
+        alert("Order submission failed.");
+    };
+};
+
+document.getElementById('submitBtn').addEventListener("click", submitOrder);
