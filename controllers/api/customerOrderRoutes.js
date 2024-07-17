@@ -1,6 +1,8 @@
 const router = require('express').Router();
 const { CustomerOrder, Item, OrderItem } = require('../../models');
 
+const withAuth = require('../../utils/auth');
+
 // https request /api/customerOrders/data
 
 router.post('/data/:id', async (req, res) => {
@@ -42,6 +44,31 @@ router.post('/data/:id', async (req, res) => {
   }
 });
 
+//Update order status at https /api/customerOrders/data/:id
+
+// UPDATE an item http request: api/items/:item_id
+router.put('/:order_id', withAuth, async (req, res) => {
+  try {
+      console.log('here in update route');
+      console.log(req.params.item_id, 'req.params.item_id');
+      console.log('request.body.updateStatus', req.body.updateStatus);
+
+    const updatedOrder = await Order.update(
+      {
+          status: req.body.updateStatus,
+      },
+      {
+          where: {
+            id: req.params.order_id,
+          },
+      });
+      console.log(updatedOrder, 'updatedOrder');
+      res.status(200).json(updatedOrder);
+  } catch (err) {
+      console.error(err);
+      res.status(400).json(err);
+  }
+});
 
 // //http request /api/orders/data
 // router.post('/data', withAuth, async (req, res) => {

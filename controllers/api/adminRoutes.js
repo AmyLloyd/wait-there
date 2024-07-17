@@ -90,6 +90,7 @@ router.post("/logout", (req, res) => {
 // UPDATE an admin http request: api/admins/:id
 router.put('/:id', withAuth, async (req, res) => {
     try {
+        console.log('in update route');
       const adminData = await Admin.update(req.body, {
         where: {
           id: req.params.id,
