@@ -7,20 +7,22 @@ const withAuth = require('../../utils/auth');
 
 router.post('/data/:id', async (req, res) => {
   console.log('here in route');
-  const { items, total_amount, reference_name  } = req.body; // Expecting an array of item IDs and the total amount
+  console.log(req.params.id, "req.params.id");
+  const { items, sum, cartRef  } = req.body; // Expecting an array of item IDs and the total amount
 
-  if (!items || !total_amount || !reference_name ) {
+  if (!items || !sum || !cartRef ) {
     return res.status(400).json({ error: 'All details are required' });
   }
 
   console.log(req.params.id, "req.params.id");
   try {
+    console.log(req.params.id, "req.params.id");
     const newOrder = await CustomerOrder.create({
-      total_amount: req.body.total_amount,
-      reference_name: req.body.reference_name,
+      total_amount: req.body.sum,
+      reference_name: req.body.cartRef,
       admin_id: req.params.id
     });
-    console.log(req.params.id, "req.params.id");
+    
     console.log(newOrder, "newOrder");
 
     // Add items to the order
@@ -68,6 +70,16 @@ router.put('/:order_id', withAuth, async (req, res) => {
       console.error(err);
       res.status(400).json(err);
   }
+});
+
+router.delete('/:order_id', withAuth, async (req, res) => {
+  const deletedOrder = await CustomerOrder.destroy({
+    where: {
+      id: req.params.order_id,
+    },
+  });
+  
+  res.json(deletedOrder);
 });
 
 // //http request /api/orders/data

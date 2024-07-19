@@ -1,4 +1,5 @@
 const orderElId = document.getElementById("orderEl-id");
+const submitBtn = document.getElementById("submitBtn");
 
 let cart = JSON.parse(localStorage.getItem('cart')) || {};
 let sum = parseFloat(localStorage.getItem('sum')) || 0;
@@ -59,10 +60,13 @@ const updateCart = () => {
 const storeRef = (refInput) => {
     const refName = refInput.trim(); 
     const refEl = document.createElement("div");
+    console.log("refName", refName);
     refEl.textContent = refName;
     refAnchor.append(refEl);
     localStorage.setItem("cartRef", JSON.stringify(refName));
+    cartRef = refName;
 };
+
 //render items from localStorage
 const renderCart = () => {
     while (orderElId.hasChildNodes()) {
@@ -160,27 +164,34 @@ const removeEl = (button) => {
 };
 
 const submitOrder = async (event) => {
-    console.log("submitOrder");
     event.preventDefault();
-    console.log(cart, "cart");
-
+    console.log(cart, 'cart');
     const items = [];
-
-    cart.forEach(obj => {
-        items.push(obj.id);
-    });
+    for(let id in cart){
+        let counter = cart[id].qty; 
+        while (counter > 0){
+            items.push(id);
+            counter--;
+            console.log(counter, items);
+        };
+    };
         
     console.log(cartRef, items, sum);
+    const id = 1;
 
-    const response = await fetch(`/api/customerOrders/data/:id`, {
+    const response = await fetch(`/api/customerOrders/data/${id}`, {
         method:'POST',
         body: JSON.stringify({ items, sum, cartRef }),
-        headers: {
+        headers: {  
             'Content-Type': 'application/json',
         },
     });
     if(response.ok) {
-        alert("Thank you " + cartRef + "for your order. It will be delivered shortly.");
+        alert("Thank you " + cartRef + " for your order. It will be delivered shortly.");
+        localStorage.removeItem("cart");
+        localStorage.removeItem("cartRef");
+        localStorage.removeItem("sum");
+        localStorage.removeItem("count");
         // document.location.replace('/confirmation');
     } else {
         alert("Order submission failed.");
@@ -197,3 +208,5 @@ document.addEventListener('click', (event) => {
         removeEl(event.target);
     }
 });
+
+submitBtn.addEventListener('click', submitOrder);

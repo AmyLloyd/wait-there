@@ -8,14 +8,14 @@ CustomerOrder.belongsToMany(Item, {
     through: 'orderItem',
     as:'items',
     foreignKey:'customerOrder_id',
-    // unique:false
+    unique:false
 });
 
 Item.belongsToMany(CustomerOrder, {
     through:'orderItem',
     as:'customerOrders',
     foreignKey: 'item_id',
-    // unique:false
+    unique:false
 });
 
 Admin.hasMany(Category, {
