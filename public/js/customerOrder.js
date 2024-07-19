@@ -124,7 +124,7 @@ const removeEl = (button) => {
                 console.log(cart[id].qty, "cart[id].qty");
                 cart[id].qty--;
                 console.log(cart[id].qty, "cart[id].qty");
-                sum -= item.price * item.qty;
+                sum -= item.price;
                 count--;
                 // Update local storage
                 updateLocalStorage(cart, sum, count);
