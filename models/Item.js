@@ -16,13 +16,13 @@ Item.init(
             allowNull: false,
         },
         price: {
-            type:DataTypes.DECIMAL,
+            type:DataTypes.DECIMAL(4, 2),
             allowNull: false,
         },
         status: {
             type:DataTypes.STRING,
             allowNull: false,
-            defaultValue:'Being prepared'
+            defaultValue:'Available'
         },
         category_id: {
             type: DataTypes.INTEGER,

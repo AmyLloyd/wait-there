@@ -1,3 +1,6 @@
+<section>
+        <h1 class="text-bg-danger p-3">{{admin.username}}</h1>
+</section>
 <section class="row">
     <h2>Dashboard </h2>
     <p class="lead">Here's your space to make changes to items, check orders and do all things backend.</p>
@@ -5,10 +8,9 @@
 
 <section class="row">
     <div class="col-md-5 order-md-1">
-       
         <h4>Items</h4>
         <div class="accordion accordion-flush" id="accordionFlushExample">
-            {{#each categories}}
+            {{#each admin.categories}}
             <div class="accordion-item">
                 <h2 class="accordion-header" id="heading-{{@index}}">
                     <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#flush-collapse-{{@index}}" aria-expanded="false" aria-controls="#flush-collapse-{{@index}}">
@@ -19,8 +21,8 @@
                     {{#each this.items}}
                     <div class="accordion-body row">
                         <div class="col-4">{{this.name}}</div>
-                        <div class="col-1">${{this.price}}</div>
-                        <div class="col-3">
+                        <div class="col-3">${{this.price}}</div>
+                        <div class="col-5">
                             <button class="btn btn-dark btn-sm update-button" data-id={{this.id}} type="button">{{this.status}}</button>
                         </div>
                     </div>
@@ -34,9 +36,50 @@
     </div>
     <div class="col-md-5 order-md-2">
         <h4>Orders</h4>
-        
-
+        {{#each admin.customerOrders}}
+        <div class="row">
+            {{!-- <div class="col-3">{{this.date_created}}</div> --}}
+            <div class="col-3">{{this.reference_name}}</div>
+          
+            <div class="col-4">
+                {{#each this.items}}
+                <div>{{this.name}}</div>
+                {{/each}}
+            </div>
+            <div class="col-5">
+                <button class="btn btn-dark btn-sm update-button" data-id={{this.id}} type="button">{{this.status}}</button>
+            </div>
+        </div>
+        {{/each}}
     </div>
 </section>
-
-<script src="./js/dashboard.js"></script>
+{{!-- <section>
+    <h4>Edit menu</h4>
+        <button class="btn btn-dark" type="button">Add new item</button>
+        <button class="btn btn-dark" type="button">Add new category</button>
+    <form>
+        <div class="mb-3">
+            <label for="itemName" class="form-label">Item name</label>
+            <input type="text" class="form-control" id="itemName" name="itemName" aria-describedby="itemName">
+            <div id="emailHelp" class="form-text">We'll never share your email with anyone else.</div>
+        </div>
+        <div class="mb-3">
+            <label for="itemPrice" class="form-label">Item price ($)</label>
+            <input type="number" class="form-control" id="itemPrice" name="itemPrice" aria-describedby="itemPrice"   placeholder="1.00"
+  pattern="[0-9]{3}.[0-9]{2}">>
+        <div id="emailHelp" class="form-text">We'll never share your email with anyone else.</div>
+        </div>
+        <input type="list" class="form-control" name="category" list="categories">
+        <datalist>
+            {{#each categories}}
+            <option value="this.name"/>
+            {{/each}}
+        </datalist>
+        <div class="mb-3">
+            <label for="exampleInputPassword1" class="form-label">Password</label>
+            <input type="password" class="form-control" id="exampleInputPassword1">
+        </div>
+        <button type="submit" class="btn btn-primary">Submit</button>
+    </form>
+</section> --}}
+  <script src="/js/dashboard.js"></script>

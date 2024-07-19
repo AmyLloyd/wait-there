@@ -1,60 +1,65 @@
 const router = require('express').Router();
 const withAuth = require('../utils/auth');
 
-const { Admin, Item, Category } = require('../models');
-
+const { Admin, Item, Category, CustomerOrder, OrderItem } = require('../models');
 
 router.get('/', async (req, res) => {
   try {
     const adminData = await Admin.findAll({
-      exclude: [{ attributes: password }]
+      attributes: { exclude: ['password'] }
     });
+    const admins = adminData.map(admin => admin.get({ plain: true }));
 
-    const admins = adminData.map((admin) =>
-    admin.get({ plain:true }) );
-  
-  res.render('homepage', {
-    admins
-  });
+    res.render('homepage', { admins });
+  } catch (err) {
+    res.status(400).json(err);
+  }
+});
 
-  } catch(err) {
-  res.status(400).json(err);
-  }});
-
-router.get('/dashboard', withAuth, async (req, res) => {
+router.get('/dashboard/:id', withAuth, async (req, res) => {
   try {
-    const categoryData = await Category.findAll({
-      where: {
-        admin_id: req.session.admin_id,
-      },
+    const adminData = await Admin.findByPk(req.params.id, {
+      attributes: { exclude: ['password'] },
       include: [
         {
-          model : Item,
-          attributes: [
-              "id",
-              "name",
-              "price",
-              "status",
-              "category_id"
-          ],
+          model: Category,
+          include: [
+            {
+              model: Item
+            }
+          ]
         },
-      ],
+        { model: CustomerOrder,
+          attributes: [
+            'reference_name',
+            'status',
+            'date_created',
+            'total_amount'
+          ],
+          include: [{ model: Item, 
+            through: OrderItem, as:"items",
+            attributes: [
+              'id',
+              'name',
+              'status'
+            ]
+          }]
+        }
+      ]
     });
 
-    if(!categoryData || categoryData.length === 0) {
-      res.status(404).json({ message: "No categories found" });
+    if (!adminData) {
+      res.status(404).json({ message: 'Admin not found'});
       return;
     }
-   
-    const categories = categoryData.map((category) => 
-      category.get({ plain:true }));
 
-    res.render('dashboard', {
-      categories, 
-      logged_in: req.session.logged_in
-    });
-
+    const admin = adminData.get({ plain: true });
+    
+    res.render('dashboard', {       
+      admin,
+      logged_in: req.session.logged_in });
   } catch (err) {
+    console.error(err);
     res.status(500).json(err);
   }
 });
@@ -63,12 +68,11 @@ router.get('/orders/:id', async (req, res) => {
   try {
     const categoryData = await Category.findAll({ 
       where: { admin_id: req.params.id},
-      include: [{ model: Item }],
+      include: [{ model: Item,
+        where: { status: "Available"}
+      }],
     });
-    console.log('categoryData', categoryData);
-
     const categories = await categoryData.map((category) => category.get({ plain:true }));
-    console.log(categories, 'categories');
     res.render('order', {
       categories
     });
