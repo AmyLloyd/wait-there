@@ -1,17 +1,5 @@
-// //identify root element for rendering orderItem
 const orderElId = document.getElementById("orderEl-id");
-// const orderElName = document.getElementById("orderEl-name");
-// const orderElStatus = document.getElementById("orderEl-status");
-// const orderElPrice = document.getElementById("orderEl-price");
 
-// //identify positions of item details
-// const orderItemId = document.getElementById("#itemId");
-// const orderItemName = document.getElementById("#itemName");
-// const orderItemPrice = document.getElementById("#itemPrice");
-// const orderItemStatus = document.getElementById("#itemStatus");
-
-
-//define variables to be set in localStorage
 let cart = JSON.parse(localStorage.getItem('cart')) || {};
 let sum = parseFloat(localStorage.getItem('sum')) || 0;
 let count = parseInt(localStorage.getItem('count')) || 0;
@@ -36,8 +24,6 @@ let cartRef = "";
     
 //add item to localStorage
 const addItem = (addButton) => {
-    // Extract data attributes from the button
-    console.log(addButton, 'addButton');
     const id = addButton.getAttribute('data-id');
     const price = parseFloat(addButton.getAttribute('data-price'));
     const status = addButton.getAttribute('data-status');
@@ -55,7 +41,7 @@ const addItem = (addButton) => {
         cart[id] = cartItem;
     }
     count++;
-    sum +- price;
+    sum += price;
 
     localStorage.setItem("cart", JSON.stringify(cart));
     localStorage.setItem("sum", sum);
@@ -65,13 +51,8 @@ const addItem = (addButton) => {
     renderCart();
 };
 
-// Event listener for the remove button
-document.querySelectorAll('.add-button').forEach(button => {
-    button.addEventListener('click', (event) => addItem(event.currentTarget));
-});
-
 const updateCart = () => {
-    document.getElementById('sum').textContent = sum.toFixed(2);
+    document.getElementById('sum').textContent = sum;
     document.getElementById('count').textContent = count;
 };
 
@@ -89,6 +70,7 @@ const renderCart = () => {
     }   
     for(let id in cart){
         let item = cart[id];
+        console.log(cart[id], "cart[id]");
         if(item.status = "Available") {
             let itemEl = document.createElement("div");
             let nameEl = document.createElement("h5");
@@ -102,7 +84,8 @@ const renderCart = () => {
             itemEl.append(quantityEl);
             quantityEl.textContent = item.qty;
             itemEl.append(priceEl);
-            priceEl.textContent = item.price;
+            const total = item.price * item.qty;
+            priceEl.textContent = total;
             itemEl.append(button);
             button.textContent = "Remove";
             itemEl.setAttribute("data-id", id);
@@ -114,7 +97,7 @@ const renderCart = () => {
             priceEl.setAttribute("class", "col-3");
             button.setAttribute("type", "button");
             button.setAttribute("class", "btn btn-dark col-3 remove-button");
-           
+            button.setAttribute("data-id", id);           
         } else {
             console.log(item.name, "Item not available");
         }
@@ -132,48 +115,49 @@ const updateLocalStorage = (cart, sum) => {
 };
 
 // Function to remove order item from the page and from local storage
-const removeEl = (event) => {
-    event.preventDefault();
-    // Find the closest parent element with class 'row'
-    console.log('here');
-    const parentEl = event.target.closest(".row");
-    console.log(parentEl, 'parentEl');
+const removeEl = (button) => {
+    const id = button.getAttribute('data-id');
+        const item = cart[id];
+        if(cart[id]){
+            console.log("cart[id]");
+            if (cart[id].qty>1) {
+                console.log(cart[id].qty, "cart[id].qty");
+                cart[id].qty--;
+                console.log(cart[id].qty, "cart[id].qty");
+                sum -= item.price * item.qty;
+                count--;
+                // Update local storage
+                updateLocalStorage(cart, sum, count);
 
-    // Remove the parent element from the DOM
-    parentEl.remove();
+            } else {
+                // Update the sum
+                sum -= item.price;
+                count--;
 
-    // Get the data-id attribute from the button
-    const id = button.dataset.id;
-    console.log(id);
+                console.log(cart, 'cart');
+                // Remove the item from the cart
+                delete cart[id];
+                console.log(cart, 'cart');
+        
+                // Update local storage
+                updateLocalStorage(cart, sum, count);
+        
+                console.log(cart, 'updated cart');
+                console.log(sum, 'sum');
 
-    // Find the item in the cart to get its price and quantity
-    const item = cart.find(item => item.id === id);
+                // Find the closest parent element with class 'row'
+                const row = button.closest(".row");
 
-    if (item) {
-        // Update the sum
-        sum -= item.price;
-
-        // Remove the item from the cart
-        cart = cart.filter(item => item.id !== id);
-
-        // Update local storage
-        updateLocalStorage(cart, sum);
-
-        console.log(cart, 'updated cart');
-        console.log(sum, 'updated sum');
-
-        // Call updateCart to reflect changes on the page
-        updateCart();
-    } else {
+                if (row) {
+                    row.remove();
+                }
+            };
+            updateCart();
+            renderCart();
+        } else {
         console.error('Item not found in the cart');
     }
 };
-
-// Event listener for the remove button
-document.querySelectorAll('.remove-button').forEach(button => {
-    button.addEventListener('click', (event) => removeEl(event.currentTarget));
-});
-
 
 const submitOrder = async (event) => {
     console.log("submitOrder");
@@ -203,4 +187,13 @@ const submitOrder = async (event) => {
     };
 };
 
-document.getElementById('submitBtn').addEventListener("click", submitOrder);
+// document.getElementById('submitBtn').addEventListener("click", submitOrder);
+document.addEventListener('click', (event) => {
+    if (event.target.matches('.add-button')) {
+        addItem(event.target);
+    }
+    if (event.target.matches('.remove-button')) {
+        console.log(event.target, "event.target");
+        removeEl(event.target);
+    }
+});
