@@ -15,23 +15,21 @@ OrderItem.init(
             type: DataTypes.INTEGER,
             references: {
                 model: 'customerOrder',
-                key: 'id',
-                unique: false
+                key: 'id'
             }
         },
         item_id: {
             type: DataTypes.INTEGER,
             references: {
                 model: 'item',
-                key: 'id',
-                unique: false
+                key: 'id'
             }
         },
-        // quantity: {
-        //     type: DataTypes.INTEGER,
-        //     defaultValue:1,
-        //     allowNull:false
-        // }
+        qty: {
+            type: DataTypes.INTEGER,
+            defaultValue:1,
+            allowNull:false
+        }
     },
     {
         sequelize,
