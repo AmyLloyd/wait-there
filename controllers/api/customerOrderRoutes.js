@@ -7,6 +7,7 @@ const withAuth = require('../../utils/auth');
 
 router.post('/data/:id', async (req, res) => {
   const { items, sum, cartRef  } = req.body; // Expecting an array of item IDs and the total amount
+  let quantity = 0;
 
   if (!items || !sum || !cartRef ) {
     return res.status(400).json({ error: 'All details are required' });
@@ -17,28 +18,8 @@ router.post('/data/:id', async (req, res) => {
       reference_name: req.body.cartRef,
       admin_id: req.params.id
     });
-    
-    console.log(customerOrderData, "customerOrderData");
-
-    // // Add items to the order
-    // for (const item of items) {
-    //   const existingItem = await Item.findByPk(item);
-    //   if (!existingItem) {
-    //     return res.status(400).json({ error: `Item with ID ${item} not found` });
-    //   }
-
-    //   // Create entry in OrderItems with quantity
-    //   await OrderItem.create({
-    //     customerOrder_id: newOrder.id,
-    //     item_id: existingItem.id
-    //   });
-    // }
-
     //Add items to the order
-    console.log(items, "items");
     for (const item of items) {
-      console.log(item, 'item');
-      console.log(customerOrderData, "customerOrderData");
       const [orderItem, created] = await OrderItem.findOrCreate({
         where: { 
           customerOrder_id: customerOrderData.dataValues.id,
@@ -47,22 +28,42 @@ router.post('/data/:id', async (req, res) => {
         defaults: {
           customerOrder_id: customerOrderData.dataValues.id,
           item_id:item.id,
+          qty: 1
         },
       })
       if (created) {
-        console.log('New order item created.');
+        console.log("orderItem.dataValues.qty", orderItem.dataValues.qty);
+        quantity = 1;
       } else {
-        orderItem.qty++
-        console.log(orderItem.qty, "orderItem.qty");
-        console.log('Order item already exists.');
+        quantity++;
+        console.log("orderItem.dataValues.qty", orderItem.dataValues.qty);
+        console.log(quantity, "quantity");
       }
+      updateQuantity(orderItem.dataValues.customerOrder_id, orderItem.dataValues.item_id, quantity);
     };
+
     res.status(201).json({ message: 'Customer order created successfully', customerOrderData });
   } catch (error) {
     console.error('Error creating customer order:', error);
     res.status(500).json({ error: 'An error occurred while creating the order' });
   }
 });
+
+const updateQuantity = async (orderId, itemId, quantity) => {
+  try {
+    const updatedOrderItem = await OrderItem.update(
+      {qty: quantity},
+      {
+        where: { 
+          customerOrder_id: orderId,
+          item_id: itemId,
+        }, 
+      } 
+    );
+  } catch(err) {
+    console.error(err);
+  }
+};
 
 //Update order status at https /api/customerOrders/data/:id
 
