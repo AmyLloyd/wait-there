@@ -67,14 +67,13 @@ const updateQuantity = async (orderId, itemId, quantity) => {
 
 //Update order status at https /api/customerOrders/data/:id
 
-// UPDATE an item http request: api/items/:item_id
 router.put('/:order_id', withAuth, async (req, res) => {
   try {
       console.log('here in update route');
       console.log(req.params.item_id, 'req.params.item_id');
       console.log('request.body.updateStatus', req.body.updateStatus);
 
-    const updatedOrder = await Order.update(
+    const updatedOrder = await CustomerOrder.update(
       {
           status: req.body.updateStatus,
       },

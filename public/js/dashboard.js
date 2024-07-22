@@ -4,7 +4,9 @@ $(document).ready(function() {
         event.stopPropagation();        
         const button = $(this);
         const id = button.data("id");
+        console.log(id, "id");
         const value = button.text();
+        console.log(value, "value");
         let updateStatus;
       
             if(value === "Available"){
@@ -74,8 +76,8 @@ $(document).ready(function() {
         //prevents dropdown from closing
         // event.stopPropagation();        
         const button = $(this);
-        const id = button.parentElement.data("id");
-        const value = button.parentElement.data("value");
+        const id = button.data("id");
+        const value = button.text();
         let updateStatus;
       
             if(value === "Being prepared"){
@@ -85,7 +87,7 @@ $(document).ready(function() {
             } else if(value === 'In transit') {
                 updateStatus = "Delivered";
             } else if(value === "Delivered") {
-                updateStatus ==="Being prepared";
+                updateStatus = "Being prepared";
             } else {
                 updateStatus = "Order status error";
             }
@@ -96,8 +98,9 @@ $(document).ready(function() {
 const updateOrder = async (id, updateStatus, button) => {
     
     if (id && updateStatus) {
+        console.log(id, "id", updateStatus, "updateStatus");
         try {
-            const response = await fetch(`/api/data/customerOrders/${id}`, {
+            const response = await fetch(`/api/customerOrders/${id}`, {
                 method: 'PUT',
                 body: JSON.stringify({ updateStatus }),
                 headers: {

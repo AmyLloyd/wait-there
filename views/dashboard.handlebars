@@ -40,15 +40,15 @@
         <div class="row">
             {{!-- <div class="col-3">{{this.date_created}}</div> --}}
             <div class="col-3">{{this.reference_name}}</div>
-          
             <div class="col-4">
                 {{#each this.items}}
                 <div>{{this.name}}</div>
                 {{/each}}
             </div>
             <div class="col-5">
-                <button class="btn btn-dark btn-sm update-button" data-id={{this.id}} type="button">{{this.status}}</button>
+                <button class="btn btn-dark btn-sm update-order-button" data-id={{this.id}} type="button">{{this.status}}</button>
             </div>
+
         </div>
         {{/each}}
     </div>

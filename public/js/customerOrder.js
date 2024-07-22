@@ -192,6 +192,9 @@ const submitOrder = async (event) => {
         localStorage.removeItem("cartRef");
         localStorage.removeItem("sum");
         localStorage.removeItem("count");
+        while (orderElId.hasChildNodes()) {
+            orderElId.removeChild(orderElId.firstChild);
+            }  
         // document.location.replace('/confirmation');
     } else {
         alert("Order submission failed.");
