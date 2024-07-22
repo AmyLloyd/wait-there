@@ -1,5 +1,5 @@
 const router = require('express').Router();
-const { CustomerOrder, Item, OrderItem } = require('../../models');
+const { CustomerOrder, OrderItem } = require('../../models');
 
 const withAuth = require('../../utils/auth');
 

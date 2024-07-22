@@ -91,4 +91,57 @@ router.get('/login', (req, res) => {
     res.render('login');
   });
 
+  router.get('/confirmation/:id/:order_id', async (req, res) => {
+    try {
+      const { id, order_id } = req.params;
+      const adminData = await Admin.findByPk(id, {
+        attributes: { exclude: ['password'] },
+        include: [
+          { model: CustomerOrder,
+            where: { 
+              id: order_id
+            }, 
+            attributes: [
+              'reference_name',
+              'status',
+              'date_created',
+              'total_amount',
+              'id'
+            ],
+            include: [{ model: Item, 
+              through: OrderItem, as:"items",
+              attributes: [
+                'id',
+                'name',
+                'price'
+              ]
+            }]
+          }
+        ]
+      });
+  
+      if (!adminData) {
+        res.status(404).json({ message: 'Admin or order not found'});
+        return;
+      }
+  
+      const admin = adminData.get({ plain: true });
+
+      //     // You can now use the order_id for further processing, e.g., filtering orders
+      // const specificOrder = admin.CustomerOrders.find(customerorder => customerorder.id === parseInt(order_id));
+      
+      // // If the specific order is not found, you can handle that case too
+      // if (!specificOrder) {
+      //   return res.status(404).json({ message: 'Order not found' });
+      // }
+      
+      res.render('confirmation', {       
+        admin
+      });
+    } catch (err) {
+      console.error(err);
+      res.status(500).json(err);
+    }
+  });
+
 module.exports = router;
