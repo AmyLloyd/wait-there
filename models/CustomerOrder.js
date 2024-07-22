@@ -10,6 +10,7 @@ CustomerOrder.init(
             allowNull: false, 
             primaryKey: true,
             autoIncrement: true,
+            unique:false
         },
         reference_name: {
             type:DataTypes.STRING,
@@ -28,6 +29,14 @@ CustomerOrder.init(
         total_amount: {
             type: DataTypes.DECIMAL(4,2),
             allowNull: false
+        },
+        admin_id: {
+            type: DataTypes.INTEGER,
+            references: {
+                model: 'admin',
+                key:'id',
+            },
+            allowNull:false
         }
     },
     {

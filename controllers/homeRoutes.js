@@ -34,7 +34,8 @@ router.get('/dashboard/:id', withAuth, async (req, res) => {
             'reference_name',
             'status',
             'date_created',
-            'total_amount'
+            'total_amount',
+            'id'
           ],
           include: [{ model: Item, 
             through: OrderItem, as:"items",
