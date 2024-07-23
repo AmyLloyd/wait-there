@@ -29,7 +29,7 @@
                 </ul>
                   <!-- Conditionally render login or logout links -->
                   {{#if logged_in}}
-                  <a href="/dashboard{{admin.id}}">Dashboard</a> |
+                  <a href="/dashboard/{{admin.id}}">Dashboard</a> |
                   <button class="no-button" id="logout">Logout</button>
                   {{else}}
                   <a href="/login">Login</a>

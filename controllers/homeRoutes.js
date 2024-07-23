@@ -16,9 +16,10 @@ router.get('/', async (req, res) => {
   }
 });
 
-router.get('/dashboard/:id', withAuth, async (req, res) => {
+router.get('/dashboard', withAuth, async (req, res) => {
+  console.log(req.session.admin_id, "admin_id");
   try {
-    const adminData = await Admin.findByPk(req.params.id, {
+    const adminData = await Admin.findByPk(req.session.admin_id, {
       attributes: { exclude: ['password'] },
       include: [
         {
