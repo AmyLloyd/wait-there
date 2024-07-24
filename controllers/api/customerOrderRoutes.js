@@ -91,13 +91,25 @@ router.put('/:order_id', withAuth, async (req, res) => {
 });
 
 router.delete('/:order_id', withAuth, async (req, res) => {
-  const deletedOrder = await CustomerOrder.destroy({
-    where: {
-      id: req.params.order_id,
-    },
-  });
-  
-  res.json(deletedOrder);
+  try {
+    console.log(req.params.order_id, "params");
+    const deletedOrder = await CustomerOrder.destroy({
+      where: {
+        id: req.params.order_id,
+      },
+    });
+
+    if(!deletedOrder) {
+      res.status(404).json({ message: 'No order found'});
+      return;
+  }
+    res.status(200).json({deletedOrder, message: "Order deleted"});
+
+  } catch (err) {
+    console.err(err);
+    response.status(500).json(err);
+  }
+
 });
 
 // //http request /api/orders/data

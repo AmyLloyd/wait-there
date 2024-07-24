@@ -29,9 +29,6 @@ router.post('/data', withAuth, async (req, res) => {
 
 router.delete('/data/:id', withAuth, async (req, res) => {
     try {
-        console.log('here');
-        console.log(req.params.id);
-
         const itemData = await Item.destroy({
             where: {
                 id: req.params.id

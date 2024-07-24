@@ -4,13 +4,12 @@
     <p class = "lead text-center">When your order status changes to 'In transit' please make your way to the delivery location.</p>
 
     {{#each admin.customerOrders}}
-    <div class="card mb-3 text-center text-bg-danger" style="max-width: 18rem;">
+    <div class="card mb-3 text-center text-bg-danger" style="max-width: 36rem; display:block; margin:auto;">
         <div class="card-header">
             Reference name: {{reference_name}}
         </div>
         <div class="card-body">
-            <h5 class="card-title">Order {{this.id}}</h5>
-            {{!-- <p class="card-text">Order {{this.id}}</p> --}}
+            <h5 class="card-title text-dark">Order {{this.id}}</h5>
             <ul class="list-group list-group-flush">
                 {{#each this.items}}
                 <li class="list-group-item">{{this.name}} ${{this.price}}</li>

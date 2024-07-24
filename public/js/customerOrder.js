@@ -89,7 +89,7 @@ const renderCart = () => {
             quantityEl.textContent = item.qty;
             itemEl.append(priceEl);
             const total = item.price * item.qty;
-            priceEl.textContent = total;
+            priceEl.textContent = `$` + total;
             itemEl.append(button);
             button.textContent = "Remove";
             itemEl.setAttribute("data-id", id);
