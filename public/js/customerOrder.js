@@ -1,5 +1,9 @@
 const orderElId = document.getElementById("orderEl-id");
 const submitBtn = document.getElementById("submitBtn");
+let hiddenElements = document.querySelectorAll(".hiddenElement");
+const visibleItem = document.querySelector(".visibleItem");
+const hiddenItem1 = document.querySelector(".hiddenItem1");
+const hiddenItem2 = document.querySelector(".hiddenItem2");
 
 let cart = JSON.parse(localStorage.getItem('cart')) || {};
 let sum = parseFloat(localStorage.getItem('sum')) || 0;
@@ -50,6 +54,26 @@ const addItem = (addButton) => {
 
     updateCart();
     renderCart();
+    toggleVisibility();
+};
+
+const toggleVisibility = () => {
+    if(orderElId.hasChildNodes()) {
+        // for(i = 0; i < hiddenElements.length; i++) {
+        //     hiddenElements[i].computedStyleMap.display = "block";
+        // }
+        console.log("orderElId has child nodes");
+        console.log(hiddenItem1, "hiddenItem1");
+        hiddenItem1.style.display = "block";
+        hiddenItem2.style.display = "block";
+        visibleItem.style.display = "none";
+        
+    } else if(!orderElId.hasChildNodes()) {
+        console.log("else if");
+        hiddenItem1.style.display = "none";
+        hiddenItem2.style.display = "none";
+        visibleItem.style.display = "block";
+    }
 };
 
 const updateCart = () => {
@@ -59,7 +83,7 @@ const updateCart = () => {
 
 const storeRef = (refInput) => {
     const refName = refInput.trim(); 
-    const refEl = document.createElement("div");
+    const refEl = document.createElement("h5");
     console.log("refName", refName);
     refEl.textContent = refName;
     refAnchor.append(refEl);
@@ -77,7 +101,7 @@ const renderCart = () => {
         console.log(cart[id], "cart[id]");
         if(item.status = "Available") {
             let itemEl = document.createElement("div");
-            let nameEl = document.createElement("h5");
+            let nameEl = document.createElement("div");
             let quantityEl = document.createElement("div");
             let priceEl = document.createElement("div");
             let button = document.createElement("button");
@@ -101,7 +125,7 @@ const renderCart = () => {
             priceEl.setAttribute("class", "col-3");
             button.setAttribute("type", "button");
             button.setAttribute("class", "btn btn-dark col-3 remove-button");
-            button.setAttribute("data-id", id);           
+            button.setAttribute("data-id", id);            
         } else {
             console.log(item.name, "Item not available");
         }
@@ -111,11 +135,26 @@ const renderCart = () => {
 //if orderElId has first child... submit button visible else orderElId.text Content = Selected items will appear here. 
 
 //iterate over the array of objects cart and collect all cart.id into one array.
+// const toggleVisibility = () => {
+//     let elements = document.querySelectorAll(".toggleVisibility");
+//     console.log(elements, "elements");
+//     for (let i = 0; i < elements.length; i++) {
+//         console.log(elements[i], "element");
+//         if (elements[i].style.display === "none") {
+//             console.log("here");
+//             elements[i].style.display = "block";
+//         } else {
+//             console.log("else here");
+//             elements[i].style.display = "none";
+//         }
+//     }
+// };
 
 // Function to update the cart and sum in local storage
-const updateLocalStorage = (cart, sum) => {
+const updateLocalStorage = (cart, sum, count) => {
     localStorage.setItem("cart", JSON.stringify(cart));
     localStorage.setItem("sum", JSON.stringify(sum));
+    localStorage.setItem("count", JSON.stringify(count));
 };
 
 // Function to remove order item from the page and from local storage
@@ -151,13 +190,14 @@ const removeEl = (button) => {
 
                 // Find the closest parent element with class 'row'
                 const row = button.closest(".row");
-
                 if (row) {
                     row.remove();
                 }
             };
+
             updateCart();
             renderCart();
+            toggleVisibility();
         } else {
         console.error('Item not found in the cart');
     }
