@@ -4,6 +4,9 @@ let hiddenElements = document.querySelectorAll(".hiddenElement");
 const visibleItem = document.querySelector(".visibleItem");
 const hiddenItem1 = document.querySelector(".hiddenItem1");
 const hiddenItem2 = document.querySelector(".hiddenItem2");
+const hiddenItem3 = document.querySelector(".hiddenItem3");
+const hiddenItem4 = document.querySelector(".hiddenItem4");
+const hiddenItem5 = document.querySelector(".hiddenItem5");
 
 let cart = JSON.parse(localStorage.getItem('cart')) || {};
 let sum = parseFloat(localStorage.getItem('sum')) || 0;
@@ -66,12 +69,18 @@ const toggleVisibility = () => {
         console.log(hiddenItem1, "hiddenItem1");
         hiddenItem1.style.display = "block";
         hiddenItem2.style.display = "block";
+        hiddenItem3.style.display = "block";
+        hiddenItem4.style.display = "block";
+        hiddenItem5.style.display = "block";
         visibleItem.style.display = "none";
         
     } else if(!orderElId.hasChildNodes()) {
         console.log("else if");
         hiddenItem1.style.display = "none";
         hiddenItem2.style.display = "none";
+        hiddenItem3.style.display = "block";
+        hiddenItem4.style.display = "block";
+        hiddenItem5.style.display = "block";
         visibleItem.style.display = "block";
     }
 };

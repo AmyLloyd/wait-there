@@ -12,9 +12,9 @@
         <div class="hiddenItem1" style="display: none">Total cost:<span id="sum"></span></div>
         <div class="hiddenItem2" style="display: none">Total number of items:<span id="count"></span></div>
     {{!-- <form class="mb-3 row" id="refNameForm"> --}}
-        <label for="refName" class="col-form-label">Reference name:</label>
+        <label for="refName" class="col-form-label hiddenItem4" style="display: none">Reference name:</label>
         {{!-- <input type="text" name="refName" onchange="storeRef(this.value)"> --}}
-        <input type="text" class="form-control" name="refName" onchange="storeRef(this.value)">
+        <input type="text" class="form-control hiddenItem5" name="refName" onchange="storeRef(this.value)" style="display: none">
     {{!-- </form> --}}
         <button class="btn btn-dark hiddenItem3" style="display: none" type="submit" id="submitBtn">Submit order</button>
     <div class="col-md-6 order-md-2">
