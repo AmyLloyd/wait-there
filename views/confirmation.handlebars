@@ -1,0 +1,31 @@
+<section class="row">
+  <div style="background-attachment: fixed; background-size: cover; min-height: 100vh;">
+    <h1 class="text-center">{{admin.username}} thanks you for your order.</h1>
+    <p class = "lead text-center">When your order status changes to 'In transit' please make your way to the delivery location.</p>
+
+    {{#each admin.customerOrders}}
+    <div class="card mb-3 text-center text-bg-danger" style="max-width: 36rem; display:block; margin:auto;">
+        <div class="card-header">
+            Reference name: {{reference_name}}
+        </div>
+        <div class="card-body">
+            <h5 class="card-title text-dark">Order {{this.id}}</h5>
+            <ul class="list-group list-group-flush">
+                {{#each this.items}}
+                <li class="list-group-item">{{this.name}} ${{this.price}}</li>
+                {{/each}}
+                <li class="list-group-item">Total price: ${{this.total_amount}}</li>
+            </ul>
+        </div>
+        <div class="card-body row">
+            <div class="col-4"></div>
+            <div class="col-4" style="background-color: white; color: black; font-weight: bold;">{{this.status}}</div>
+            <div class="col-4"></div>
+        </div>
+        <div class="card-footer text-body-secondary">
+            {{this.date_created}}
+        </div>
+    </div>
+    {{/each}}
+    </div>
+</section>

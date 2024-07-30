@@ -8,7 +8,6 @@ const logout = async () => {
         console.log('response ok');
         document.location.replace("/");
     } else {
-        console.log('response ok');
         alert(response.statusText);
     }
 };
