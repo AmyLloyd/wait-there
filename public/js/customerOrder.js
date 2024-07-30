@@ -270,27 +270,9 @@ const submitOrder = async (event) => {
         while (orderElId.hasChildNodes()) {
             orderElId.removeChild(orderElId.firstChild); 
         }
-    
-        // document.location.replace('/confirmation/');
-
         const orderData = await response.json();
         document.location.replace(`/confirmation/${orderData.customerOrderData.admin_id}/${orderData.customerOrderData.id}`);
     };
-
-    // if(response.ok) {
-    //     alert("Thank you " + cartRef + " for your order. It will be delivered to you at location " + cartLocation + " shortly. Please show the coloured order confirmation on pick-up.");
-    //     localStorage.removeItem("cart");
-    //     localStorage.removeItem("cartRef");
-    //     localStorage.removeItem("cartLocation");
-    //     localStorage.removeItem("sum");
-    //     localStorage.removeItem("count");
-    //     while (orderElId.hasChildNodes()) {
-    //         orderElId.removeChild(orderElId.firstChild);
-    //         console.log("childElements removed");            }  
-    //     // document.location.replace('/confirmation');
-    // } else {
-    //     alert("Order submission failed.");
-    // };
 };
 
 // document.getElementById('submitBtn').addEventListener("click", submitOrder);
