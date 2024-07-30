@@ -1,34 +1,43 @@
 const orderElId = document.getElementById("orderEl-id");
 const submitBtn = document.getElementById("submitBtn");
-let hiddenElements = document.querySelectorAll(".hiddenElement");
 const visibleItem = document.querySelector(".visibleItem");
 const hiddenItem1 = document.querySelector(".hiddenItem1");
 const hiddenItem2 = document.querySelector(".hiddenItem2");
 const hiddenItem3 = document.querySelector(".hiddenItem3");
 const hiddenItem4 = document.querySelector(".hiddenItem4");
 const hiddenItem5 = document.querySelector(".hiddenItem5");
+const hiddenItem6 = document.querySelector(".hiddenItem6");
+const orderBody = document.getElementById("orderBody");
+
+const refAnchor = document.getElementById("refAnchor");
+const locationAnchor = document.getElementById("locationAnchor");
 
 let cart = JSON.parse(localStorage.getItem('cart')) || {};
 let sum = parseFloat(localStorage.getItem('sum')) || 0;
 let count = parseInt(localStorage.getItem('count')) || 0;
 let cartRef = "";
-//update DOM with current values in localStorage
+let cartLocation = "";
 
-// if (localStorage.getItem("count")) {
-//     count = parseInt(localStorage.getItem("count"));
-// };
+if (localStorage.getItem("count")) {
+    count = parseInt(localStorage.getItem("count"));
+};
 
-// if (localStorage.getItem("sum")) {
-//     sum = parseInt(localStorage.getItem("sum"));
-// };
+if (localStorage.getItem("sum")) {
+    sum = parseInt(localStorage.getItem("sum"));
+};
 
-// if (localStorage.getItem("cart")) {
-//     cart = JSON.parse(localStorage.getItem("cart"));
-// };
+if (localStorage.getItem("cart")) {
+    cart = JSON.parse(localStorage.getItem("cart"));
 
-// if (localStorage.getItem("cartRef")) {
-//     cartRef = JSON.parse(localStorage.getItem("cartRef"));
-// };
+};
+
+if (localStorage.getItem("cartRef")) {
+    cartRef = JSON.parse(localStorage.getItem("cartRef"));
+};
+
+if(localStorage.getItem("cartLocation")) {
+    cartLocation = JSON.parse(localStorage.getItem("cartLocation"));
+};
     
 //add item to localStorage
 const addItem = (addButton) => {
@@ -62,25 +71,26 @@ const addItem = (addButton) => {
 
 const toggleVisibility = () => {
     if(orderElId.hasChildNodes()) {
+        console.log("has nodes");
         // for(i = 0; i < hiddenElements.length; i++) {
         //     hiddenElements[i].computedStyleMap.display = "block";
         // }
-        console.log("orderElId has child nodes");
-        console.log(hiddenItem1, "hiddenItem1");
         hiddenItem1.style.display = "block";
         hiddenItem2.style.display = "block";
         hiddenItem3.style.display = "block";
         hiddenItem4.style.display = "block";
         hiddenItem5.style.display = "block";
+        hiddenItem6.style.display = "block";
         visibleItem.style.display = "none";
-        
+
     } else if(!orderElId.hasChildNodes()) {
         console.log("else if");
         hiddenItem1.style.display = "none";
         hiddenItem2.style.display = "none";
-        hiddenItem3.style.display = "block";
-        hiddenItem4.style.display = "block";
-        hiddenItem5.style.display = "block";
+        hiddenItem3.style.display = "none";
+        hiddenItem4.style.display = "none";
+        hiddenItem5.style.display = "none";
+        hiddenItem6.style.display = "none";
         visibleItem.style.display = "block";
     }
 };
@@ -92,12 +102,23 @@ const updateCart = () => {
 
 const storeRef = (refInput) => {
     const refName = refInput.trim(); 
-    const refEl = document.createElement("h5");
+    const refEl = document.createElement("p");
     console.log("refName", refName);
-    refEl.textContent = refName;
+    refEl.textContent = "Your reference name: " + refName;
     refAnchor.append(refEl);
     localStorage.setItem("cartRef", JSON.stringify(refName));
     cartRef = refName;
+};
+const storeLocation = (locationInput) => {
+    const locationRef = locationInput;
+    const locationEl = document.createElement("p");
+    while (locationAnchor.hasChildNodes()) {
+        locationAnchor.removeChild(locationAnchor.firstChild);
+        }  
+    locationEl.textContent = "Location: Bay " + locationRef;
+    locationAnchor.append(locationEl);
+    localStorage.setItem("cartLocation", JSON.stringify(locationRef));
+    cartLocation = locationRef;
 };
 
 //render items from localStorage
@@ -107,7 +128,6 @@ const renderCart = () => {
     }   
     for(let id in cart){
         let item = cart[id];
-        console.log(cart[id], "cart[id]");
         if(item.status = "Available") {
             let itemEl = document.createElement("div");
             let nameEl = document.createElement("div");
@@ -225,20 +245,21 @@ const submitOrder = async (event) => {
         };
     };
         
-    console.log(cartRef, items, sum);
+    console.log(cartRef, cartLocation, items, sum);
     const id = 1;
 
     const response = await fetch(`/api/customerOrders/data/${id}`, {
         method:'POST',
-        body: JSON.stringify({ items, sum, cartRef }),
+        body: JSON.stringify({ items, sum, cartRef, cartLocation }),
         headers: {  
             'Content-Type': 'application/json',
         },
     });
     if(response.ok) {
-        alert("Thank you " + cartRef + " for your order. It will be delivered shortly.");
+        alert("Thank you " + cartRef + " for your order. It will be delivered to you at location" + cartLocation + "shortly. Please show the coloured order confirmation on pick-up.");
         localStorage.removeItem("cart");
         localStorage.removeItem("cartRef");
+        localStorage.removeItem("cartLocation");
         localStorage.removeItem("sum");
         localStorage.removeItem("count");
         while (orderElId.hasChildNodes()) {
@@ -260,5 +281,12 @@ document.addEventListener('click', (event) => {
         removeEl(event.target);
     }
 });
+
+const loadPage = () => {
+    renderCart();
+    toggleVisibility();
+}
+
+document.addEventListener('DOMContentLoaded', loadPage());
 
 submitBtn.addEventListener('click', submitOrder);

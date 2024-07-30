@@ -1,22 +1,39 @@
 
-<section class="row">
+<section class="row ">
     <h1 class="text-bg-danger p-3">{{admin.username}}Waikerie Netball Club</h1>
 </section>  
 <section class="row">
     <div class="col-md-4">
-        <h4>My order</h4>
+        <h4>Your order</h4>
+        <div class="row mb-3">
+            <div id="refAnchor"></div>
+            <div id="locationAnchor"></div>
+        </div>            
         <div class="fst-italic visibleItem" style="display: block">No items added</div>
-          <div  id="refAnchor"></div>
         <div class="row mb-3" id="orderEl-id">
         </div>
-        <div class="hiddenItem1" style="display: none">Total cost:<span id="sum"></span></div>
-        <div class="hiddenItem2" style="display: none">Total number of items:<span id="count"></span></div>
+        <div class="hiddenItem1">Total cost:<span id="sum"></span></div>
+        <div class="hiddenItem2">Total number of items:<span id="count"></span></div>
     {{!-- <form class="mb-3 row" id="refNameForm"> --}}
-        <label for="refName" class="col-form-label hiddenItem4" style="display: none">Reference name:</label>
+        <label for="refName" class="col-form-label hiddenItem4">Reference name:</label>
         {{!-- <input type="text" name="refName" onchange="storeRef(this.value)"> --}}
-        <input type="text" class="form-control hiddenItem5" name="refName" onchange="storeRef(this.value)" style="display: none">
+        <input type="text" class="form-control hiddenItem5" name="refName" onchange="storeRef(this.value)">
     {{!-- </form> --}}
-        <button class="btn btn-dark hiddenItem3" style="display: none" type="submit" id="submitBtn">Submit order</button>
+        <div class="form-group hiddenItem6">
+            <div class="form-check form-check-inline">
+                <input class="form-check-input" type="radio" name="locationRadios" id="locationRadios1" value="A" onchange="storeLocation(this.value)">
+                <label class="form-check-label" for="locationRadios1">
+                    A
+                </label>
+            </div>
+            <div class="form-check form-check-inline">
+                <input class="form-check-input" type="radio" name="locationRadios" id="locationRadios2" value="B" onchange="storeLocation(this.value)">
+                <label class="form-check-label" for="locationRadios2">
+                    B
+                </label>
+            </div>
+        </div>
+        <button class="btn btn-dark hiddenItem3" type="submit" id="submitBtn">Submit order</button>
     <div class="col-md-6 order-md-2">
         <h4>Menu</h4>
         <div class="accordion accordion-flush" id="accordionFlushExample">

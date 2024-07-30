@@ -6,16 +6,17 @@ const withAuth = require('../../utils/auth');
 // https request /api/customerOrders/data
 
 router.post('/data/:id', async (req, res) => {
-  const { items, sum, cartRef  } = req.body; // Expecting an array of item IDs and the total amount
+  const { items, sum, cartRef, cartLocation  } = req.body; // Expecting an array of item IDs and the total amount
   let quantity = 0;
 
-  if (!items || !sum || !cartRef ) {
+  if (!items || !sum || !cartRef || !cartLocation ) {
     return res.status(400).json({ error: 'All details are required' });
   }
   try {
     const customerOrderData = await CustomerOrder.create({
       total_amount: req.body.sum,
       reference_name: req.body.cartRef,
+      location: req.body.cartLocation,
       admin_id: req.params.id
     });
     //Add items to the order

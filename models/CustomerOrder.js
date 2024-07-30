@@ -30,6 +30,10 @@ CustomerOrder.init(
             type: DataTypes.DECIMAL(4,2),
             allowNull: false
         },
+        location: {
+            type: DataTypes.STRING,
+            allowNull: false,
+        },
         admin_id: {
             type: DataTypes.INTEGER,
             references: {
