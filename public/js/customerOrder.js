@@ -18,6 +18,12 @@ let count = parseInt(localStorage.getItem('count')) || 0;
 let cartRef = "";
 let cartLocation = "";
 
+window.onload = async (event) => {
+    event.preventDefault();
+    renderCart();
+    toggleVisibility();
+};
+
 if (localStorage.getItem("count")) {
     count = parseInt(localStorage.getItem("count"));
 };
@@ -234,7 +240,6 @@ const removeEl = (button) => {
 
 const submitOrder = async (event) => {
     event.preventDefault();
-    console.log(cart, 'cart');
     const items = [];
     for(let id in cart){
         let counter = cart[id].qty; 
@@ -244,10 +249,7 @@ const submitOrder = async (event) => {
             console.log(counter, items);
         };
     };
-        
-    console.log(cartRef, cartLocation, items, sum);
     const id = 1;
-
     const response = await fetch(`/api/customerOrders/data/${id}`, {
         method:'POST',
         body: JSON.stringify({ items, sum, cartRef, cartLocation }),
@@ -255,20 +257,40 @@ const submitOrder = async (event) => {
             'Content-Type': 'application/json',
         },
     });
+    if(!response.ok) {
+        throw new Error(`HTTP error! status: ${response.status}`);
+    }
     if(response.ok) {
-        alert("Thank you " + cartRef + " for your order. It will be delivered to you at location" + cartLocation + "shortly. Please show the coloured order confirmation on pick-up.");
+        alert("Thank you " + cartRef + " for your order. It will be delivered to you at location " + cartLocation + " shortly. Please show the coloured order confirmation on pick-up.");
         localStorage.removeItem("cart");
         localStorage.removeItem("cartRef");
         localStorage.removeItem("cartLocation");
         localStorage.removeItem("sum");
         localStorage.removeItem("count");
         while (orderElId.hasChildNodes()) {
-            orderElId.removeChild(orderElId.firstChild);
-            }  
-        // document.location.replace('/confirmation');
-    } else {
-        alert("Order submission failed.");
+            orderElId.removeChild(orderElId.firstChild); 
+        }
+    
+        // document.location.replace('/confirmation/');
+
+        const orderData = await response.json();
+        document.location.replace(`/confirmation/${orderData.customerOrderData.admin_id}/${orderData.customerOrderData.id}`);
     };
+
+    // if(response.ok) {
+    //     alert("Thank you " + cartRef + " for your order. It will be delivered to you at location " + cartLocation + " shortly. Please show the coloured order confirmation on pick-up.");
+    //     localStorage.removeItem("cart");
+    //     localStorage.removeItem("cartRef");
+    //     localStorage.removeItem("cartLocation");
+    //     localStorage.removeItem("sum");
+    //     localStorage.removeItem("count");
+    //     while (orderElId.hasChildNodes()) {
+    //         orderElId.removeChild(orderElId.firstChild);
+    //         console.log("childElements removed");            }  
+    //     // document.location.replace('/confirmation');
+    // } else {
+    //     alert("Order submission failed.");
+    // };
 };
 
 // document.getElementById('submitBtn').addEventListener("click", submitOrder);
@@ -282,11 +304,11 @@ document.addEventListener('click', (event) => {
     }
 });
 
-const loadPage = () => {
-    renderCart();
-    toggleVisibility();
-}
+// const loadPage = () => {
+//     renderCart();
+//     toggleVisibility();
+// }
 
-document.addEventListener('DOMContentLoaded', loadPage());
+// document.addEventListener('DOMContentLoaded', loadPage());
 
 submitBtn.addEventListener('click', submitOrder);

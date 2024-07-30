@@ -33,17 +33,14 @@ router.post('/data/:id', async (req, res) => {
         },
       })
       if (created) {
-        console.log("orderItem.dataValues.qty", orderItem.dataValues.qty);
         quantity = 1;
       } else {
         quantity++;
-        console.log("orderItem.dataValues.qty", orderItem.dataValues.qty);
-        console.log(quantity, "quantity");
       }
       updateQuantity(orderItem.dataValues.customerOrder_id, orderItem.dataValues.item_id, quantity);
-    };
+    };    
 
-    res.status(201).json({ message: 'Customer order created successfully', customerOrderData });
+    res.status(200).json({ customerOrderData });
   } catch (error) {
     console.error('Error creating customer order:', error);
     res.status(500).json({ error: 'An error occurred while creating the order' });
