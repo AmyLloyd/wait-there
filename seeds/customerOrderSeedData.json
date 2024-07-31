@@ -1,10 +1,12 @@
 [
     {
         "id":1,
-        "reference_name":"Bruce"
+        "reference_name":"Bruce",
+        "location":"A"
     },
     {
         "id":2,
-        "reference_name":"Ricky"
+        "reference_name":"Ricky",
+        "location":"B"
     }
 ]
