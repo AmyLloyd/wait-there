@@ -1,31 +1,33 @@
 [
     {
-        "id":1,
-        "name": "Fanta",
-        "status": "Being prepared",
-        "price": "4.00",
-        "category_id":1
+        "name": "Sausage & bread",
+        "price": "3.00",
+        "category_id":4
 
     },
     {
-        "id":2,
-        "name": "Cupcake",
-        "status": "Sold out",
+        "name": "Sausage, onion & bread",
         "price": "3.00",
-        "category_id":2
+        "category_id":4
     },
     {
-        "id":3,
-        "name": "Coffee",
-        "status": "In transit",
+        "name": "Pie",
         "price": "5.00",
-        "category_id":1
+        "category_id":5
     },
     {
-        "id":4,
-        "name": "Chocolate bar",
-        "status": "Awaiting collection",
-        "price": "2.00",
-        "category_id":3
+        "name": "Sausage roll",
+        "price": "5.00",
+        "category_id":5
+    },
+    {
+        "name":"Pastie",
+        "price":"5.00",
+        "category_id":5
+    },
+    {
+        "name":"Small pie",
+        "price": "3.00",
+        "category_id":5
     }
 ]

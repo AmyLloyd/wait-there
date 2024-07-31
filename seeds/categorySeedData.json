@@ -1,28 +1,27 @@
 [
     {
-        "id":1,
-        "name":"Drinks",
+        "name":"Hot drinks",
         "admin_id": 1
     },
     {
-        "id":2,
-        "name":"Sweets",
+        "name":"Cold drinks",
         "admin_id":1
     },
     {
-        "id":3,
         "name":"Snacks",
         "admin_id":1
     },
     {
-        "id":4,
-        "name":"Fruit",
-        "admin_id":2
+        "name":"BBQ food",
+        "admin_id":1
 
     },
     {
-        "id":5,
-        "name":"Hot food",
+        "name":"Pastries",
+        "admin_id":1
+    },
+    {
+        "name":"Hot Specials of the Day",
         "admin_id":1
     }
 ]
