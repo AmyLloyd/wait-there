@@ -19,7 +19,7 @@ const sess = {
     maxAge: 60 * 60 * 1000,
     httpOnly: true,
     // secure: process.env.NODE_ENV === 'production',
-    secure:false,
+    secure:true,
     sameSite: 'strict',
   },
   resave: false,
