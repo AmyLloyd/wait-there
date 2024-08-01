@@ -14,7 +14,7 @@ router.post("/", async (req, res) => {
         const adminData = await Admin.create({
             // username: req.body.username,
             email_address: email_address,
-            password: body.password,
+            password: password,
         });
 
         req.session.save(() => {
@@ -25,7 +25,7 @@ router.post("/", async (req, res) => {
         });
     } catch (err) {
         console.error(err);
-        res.status(500).json({ message: "Admin signup failed" + error});
+        res.status(500).json({ message: "Admin signup failed"});
     }
 });
 
