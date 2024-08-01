@@ -5,23 +5,27 @@ const withAuth = require("../../utils/auth");
 
 //http request: /api/admins/
 router.post("/", async (req, res) => {
-
+    console.log('user route hit');
     try {
         const { email_address, password } = req.body;
         if (!email_address || !password) {
             return res.status(400).json({ message: "Email and password are required" });
         }
-        const adminData = await Admin.create(req.body);
+        const adminData = await Admin.create({
+            username: req.body.username,
+            email_address: email_address,
+            password: body.password,
+        });
 
         req.session.save(() => {
-            req.session.admin_id = adminData.id;
             req.session.logged_in = true;
-
+            req.session.admin_id = adminData.id;
+            req.session.username = adminData.username;
             res.status(200).json(adminData);
         });
     } catch (err) {
         console.error(err);
-        res.status(400).json({ message: "Admin signup failed"});
+        res.status(500).json({ message: "Admin signup failed"});
     }
 });
 
@@ -53,6 +57,7 @@ router.post("/login", async (req, res) => {
 
         req.session.save(() => {
             req.session.admin_id = adminData.id;
+            req.session.username = adminData.username;
             req.session.logged_in = true;
 
             res.json({ admin: adminData, message : "You are now logged in" });
