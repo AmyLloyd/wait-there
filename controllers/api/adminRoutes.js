@@ -7,12 +7,10 @@ const withAuth = require("../../utils/auth");
 router.post("/", async (req, res) => {
 
     try {
-
         const { email_address, password } = req.body;
         if (!email_address || !password) {
             return res.status(400).json({ message: "Email and password are required" });
         }
-
         const adminData = await Admin.create(req.body);
 
         req.session.save(() => {
