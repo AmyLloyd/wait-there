@@ -8,9 +8,6 @@ router.post("/", async (req, res) => {
     console.log('user route hit');
     try {
         const { email_address, password } = req.body;
-        console.log(email_address, "email_address");
-        console.log(password, "password");
-        console.log(req.body.username, "req.body.username");
         if (!email_address || !password) {
             return res.status(400).json({ message: "Email and password are required" });
         }
@@ -74,20 +71,16 @@ router.post("/login", async (req, res) => {
 //http request localhost:3001/api/admins/logout
 
 router.post("/logout", (req, res) => {
-    console.log('Session object before destroy:', req.session);
     if(req.session.logged_in) {
-        console.log('logged in');
         req.session.destroy(err => {
             if (err) {
                 console.error('Error destroying session:', err);
                 res.status(500).json({ message: 'Failed to destroy session' });
             } else {
-                console.log('Session destroyed');
                 res.status(204).end();
             }
         })
     } else {
-        console.log('not logged in');
         res.status(404).end();
     }
 });
@@ -96,7 +89,6 @@ router.post("/logout", (req, res) => {
 // UPDATE an admin http request: api/admins/:id
 router.put('/:id', withAuth, async (req, res) => {
     try {
-        console.log('in update route');
       const adminData = await Admin.update(req.body, {
         where: {
           id: req.params.id,

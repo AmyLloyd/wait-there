@@ -28,19 +28,6 @@ const sess = {
   store: store,
 };
 
-// if (process.env.NODE_ENV === 'production') {
-//   app.use((req, res, next) => {
-//     if (req.headers['x-forwarded-proto'] !== 'https') {
-//       return res.redirect(`https://${req.headers.host}${req.url}`);
-//     }
-//     next();
-//   });
-// }
-
-store.on('error', (error) => {
-  console.error('Session store error:', error);
-});
-
 app.use(session(sess));
 
 const hbs = exphbs.create({
