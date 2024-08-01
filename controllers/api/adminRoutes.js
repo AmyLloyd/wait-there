@@ -8,11 +8,14 @@ router.post("/", async (req, res) => {
     console.log('user route hit');
     try {
         const { email_address, password } = req.body;
+        console.log(email_address, "email_address");
+        console.log(password, "password");
+        console.log(req.body.username, "req.body.username");
         if (!email_address || !password) {
             return res.status(400).json({ message: "Email and password are required" });
         }
         const adminData = await Admin.create({
-            // username: req.body.username,
+            username: req.body.username,
             email_address: email_address,
             password: password,
         });
@@ -20,7 +23,7 @@ router.post("/", async (req, res) => {
         req.session.save(() => {
             req.session.logged_in = true;
             req.session.admin_id = adminData.id;
-            // req.session.username = adminData.username;
+            req.session.username = adminData.username;
             res.status(200).json(adminData);
         });
     } catch (err) {
