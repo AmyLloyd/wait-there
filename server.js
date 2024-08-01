@@ -10,10 +10,6 @@ const store = new SequelizeStore({
   db: sequelize,
 });
 
-sequelize.authenticate()
-  .then(() => console.log('Connection has been established successfully.'))
-  .catch(err => console.error('Unable to connect to the database:', err));
-
 const app = express();
 const PORT = process.env.PORT || 3001;
 
@@ -22,7 +18,8 @@ const sess = {
   cookie: {
     maxAge: 60 * 60 * 1000,
     httpOnly: true,
-    secure: process.env.NODE_ENV === 'production',
+    // secure: process.env.NODE_ENV === 'production',
+    secure:false,
     sameSite: 'strict',
   },
   resave: false,
@@ -30,14 +27,14 @@ const sess = {
   store: store,
 };
 
-if (process.env.NODE_ENV === 'production') {
-  app.use((req, res, next) => {
-    if (req.headers['x-forwarded-proto'] !== 'https') {
-      return res.redirect(`https://${req.headers.host}${req.url}`);
-    }
-    next();
-  });
-}
+// if (process.env.NODE_ENV === 'production') {
+//   app.use((req, res, next) => {
+//     if (req.headers['x-forwarded-proto'] !== 'https') {
+//       return res.redirect(`https://${req.headers.host}${req.url}`);
+//     }
+//     next();
+//   });
+// }
 
 store.on('error', (error) => {
   console.error('Session store error:', error);
