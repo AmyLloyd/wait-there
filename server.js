@@ -6,6 +6,10 @@ const routes = require('./controllers');
 const SequelizeStore = require('connect-session-sequelize')(session.Store);
 const sequelize = require('./config/connection');
 
+const store = new SequelizeStore({
+  db: sequelize,
+});
+
 const app = express();
 const PORT = process.env.PORT || 3001;
 
@@ -19,10 +23,21 @@ const sess = {
   },
   resave: false,
   saveUninitialized: true,
-  store: new SequelizeStore({
-    db: sequelize
-  })
+  store: store,
 };
+
+if (process.env.NODE_ENV === 'production') {
+  app.use((req, res, next) => {
+    if (req.headers['x-forwarded-proto'] !== 'https') {
+      return res.redirect(`https://${req.headers.host}${req.url}`);
+    }
+    next();
+  });
+}
+
+store.on('error', (error) => {
+  console.error('Session store error:', error);
+});
 
 app.use(session(sess));
 
@@ -50,14 +65,7 @@ app.use(express.static(path.join(__dirname, 'public')));
 
 app.use(routes);
 
-if (process.env.NODE_ENV === 'production') {
-  app.use((req, res, next) => {
-    if (req.headers['x-forwarded-proto'] !== 'https') {
-      return res.redirect(`https://${req.headers.host}${req.url}`);
-    }
-    next();
-  });
-}
+
 
 sequelize.sync({ force: false }).then(() => {
   app.listen(PORT, () => console.log('Now listening'));
