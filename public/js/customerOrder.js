@@ -249,7 +249,7 @@ const submitOrder = async (event) => {
             console.log(counter, items);
         };
     };
-    const id = 1;
+    const id = 11;
     const response = await fetch(`/api/customerOrders/data/${id}`, {
         method:'POST',
         body: JSON.stringify({ items, sum, cartRef, cartLocation }),
