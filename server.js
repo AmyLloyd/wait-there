@@ -22,7 +22,7 @@ const sess = {
     secure:true,
     sameSite: 'none',
   },
-  // proxy:true,
+  proxy:true,
   resave: false,
   saveUninitialized: true,
   store: store,
