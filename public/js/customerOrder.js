@@ -23,7 +23,7 @@ window.onload = (event) => {
     try {
         renderCart();
         updateCart();
-        toggleVisibility();
+        toggleOrderItems();
         renderLocation();
         renderRef();
     } catch (error) {
@@ -76,20 +76,19 @@ const addItem = (addButton) => {
     localStorage.setItem("cart", JSON.stringify(cart));
     localStorage.setItem("sum", sum);
     localStorage.setItem("count", count);
-
     updateCart();
     renderCart();
-    toggleVisibility();
+    toggleOrderItems();
 };
 
-const toggleVisibility = () => {
+const toggleOrderItems = () => {
     if(orderElId.hasChildNodes()) {
         hiddenItem1.style.display = "block";
         hiddenItem2.style.display = "block";
         hiddenItem3.style.display = "block";
         hiddenItem4.style.display = "block";
         hiddenItem5.style.display = "block";
-        hiddenItem6.style.display = "block";
+        // hiddenItem6.style.display = "block";
         visibleItem.style.display = "none";
 
     } else if(!orderElId.hasChildNodes()) {
@@ -98,7 +97,7 @@ const toggleVisibility = () => {
         hiddenItem3.style.display = "none";
         hiddenItem4.style.display = "none";
         hiddenItem5.style.display = "none";
-        hiddenItem6.style.display = "none";
+        // hiddenItem6.style.display = "none";
         visibleItem.style.display = "block";
     }
 };
@@ -110,42 +109,28 @@ const updateCart = () => {
 
 const storeRef = (refInput) => {
     const refName = refInput.trim(); 
-    const refEl = document.createElement("p");
-    refEl.textContent = "Your reference name: " + refName;
-    refAnchor.append(refEl);
     localStorage.setItem("cartRef", JSON.stringify(refName));
     cartRef = refName;
+    refAnchor.textContent = cartRef;
 };
-const storeLocation = (locationInput) => {
-    const locationRef = locationInput;
-    const locationEl = document.createElement("p");
-    while (locationAnchor.hasChildNodes()) {
-        locationAnchor.removeChild(locationAnchor.firstChild);
-    }  
-    locationEl.textContent = "Location: Bay " + locationRef;
-    locationAnchor.append(locationEl);
+const storeLocation = (locationRef) => {
     localStorage.setItem("cartLocation", JSON.stringify(locationRef));
     cartLocation = locationRef;
+    locationAnchor.textContent = cartLocation;
 };
+
 const renderRef = () => {
     if (localStorage.getItem("cartRef")) {
         cartRef = JSON.parse(localStorage.getItem("cartRef"));
-    };
-    const refEl = document.createElement("p");
-    refEl.textContent = "Your reference name: " + cartRef;
-    refAnchor.append(refEl);
+    }
+    refAnchor.textContent = cartRef;
 }
 
 const renderLocation = () => {
     if(localStorage.getItem("cartLocation")) {
     cartLocation = JSON.parse(localStorage.getItem("cartLocation"));
     };
-    const locationEl = document.createElement("p");
-    while (locationAnchor.hasChildNodes()) {
-        locationAnchor.removeChild(locationAnchor.firstChild);
-    }  
-    locationEl.textContent = "Location: Bay " + cartLocation;
-    locationAnchor.append(locationEl);
+    locationAnchor.textContent = cartLocation;
 }
 
 //render items from localStorage
@@ -161,6 +146,7 @@ const renderCart = () => {
             let quantityEl = document.createElement("div");
             let priceEl = document.createElement("div");
             let button = document.createElement("button");
+            // let iconEl = document.createElement("i");
             orderElId.appendChild(itemEl);
             itemEl.append(nameEl);
             nameEl.textContent = item.name;
@@ -169,17 +155,19 @@ const renderCart = () => {
             itemEl.append(priceEl);
             const total = item.price * item.qty;
             priceEl.textContent = `$` + total;
+            button.textContent = "Remove from order";
             itemEl.append(button);
-            button.textContent = "Remove";
+            // iconEl.setAttribute("class", "bi bi-bag-dash-fill");
+            // button.append(iconEl);
             itemEl.setAttribute("data-id", id);
              //If element already exists with this id or text content, change quantity to +1
             itemEl.setAttribute("data-quantity", 1)
             itemEl.setAttribute("class", "row");
-            nameEl.setAttribute("class", "col-5");
+            nameEl.setAttribute("class", "col-6");
             quantityEl.setAttribute("class", "col-1");
-            priceEl.setAttribute("class", "col-3");
+            priceEl.setAttribute("class", "col-2");
             button.setAttribute("type", "button");
-            button.setAttribute("class", "btn btn-dark col-3 remove-button");
+            button.setAttribute("class", "btn btn-sm btn-dark col-3 remove-button my-1");
             button.setAttribute("data-id", id);            
         } else {
             console.log(item.name, "Item not available");
@@ -226,7 +214,7 @@ const removeEl = (button) => {
             };
             updateCart();
             renderCart();
-            toggleVisibility();
+            toggleOrderItems();
         } else {
         console.error('Item not found in the cart');
     }
