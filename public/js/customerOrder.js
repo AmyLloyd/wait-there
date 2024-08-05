@@ -15,13 +15,20 @@ const locationAnchor = document.getElementById("locationAnchor");
 let cart = JSON.parse(localStorage.getItem('cart')) || {};
 let sum = parseFloat(localStorage.getItem('sum')) || 0;
 let count = parseInt(localStorage.getItem('count')) || 0;
-let cartRef = "";
-let cartLocation = "";
+let cartRef = JSON.parse(localStorage.getItem('cartRef')) || "";
+let cartLocation = JSON.parse(localStorage.getItem('cartLocation')) || "";
 
-window.onload = async (event) => {
+window.onload = (event) => {
     event.preventDefault();
-    renderCart();
-    toggleVisibility();
+    try {
+        renderCart();
+        updateCart();
+        toggleVisibility();
+        renderLocation();
+        renderRef();
+    } catch (error) {
+        console.error('Error rendering cart:', error);
+    }
 };
 
 if (localStorage.getItem("count")) {
@@ -44,7 +51,7 @@ if (localStorage.getItem("cartRef")) {
 if(localStorage.getItem("cartLocation")) {
     cartLocation = JSON.parse(localStorage.getItem("cartLocation"));
 };
-    
+
 //add item to localStorage
 const addItem = (addButton) => {
     const id = addButton.getAttribute('data-id');
@@ -77,10 +84,6 @@ const addItem = (addButton) => {
 
 const toggleVisibility = () => {
     if(orderElId.hasChildNodes()) {
-        console.log("has nodes");
-        // for(i = 0; i < hiddenElements.length; i++) {
-        //     hiddenElements[i].computedStyleMap.display = "block";
-        // }
         hiddenItem1.style.display = "block";
         hiddenItem2.style.display = "block";
         hiddenItem3.style.display = "block";
@@ -90,7 +93,6 @@ const toggleVisibility = () => {
         visibleItem.style.display = "none";
 
     } else if(!orderElId.hasChildNodes()) {
-        console.log("else if");
         hiddenItem1.style.display = "none";
         hiddenItem2.style.display = "none";
         hiddenItem3.style.display = "none";
@@ -102,14 +104,13 @@ const toggleVisibility = () => {
 };
 
 const updateCart = () => {
-    document.getElementById('sum').textContent = sum;
+    document.getElementById('sum').textContent = "$" + sum;
     document.getElementById('count').textContent = count;
 };
 
 const storeRef = (refInput) => {
     const refName = refInput.trim(); 
     const refEl = document.createElement("p");
-    console.log("refName", refName);
     refEl.textContent = "Your reference name: " + refName;
     refAnchor.append(refEl);
     localStorage.setItem("cartRef", JSON.stringify(refName));
@@ -120,12 +121,32 @@ const storeLocation = (locationInput) => {
     const locationEl = document.createElement("p");
     while (locationAnchor.hasChildNodes()) {
         locationAnchor.removeChild(locationAnchor.firstChild);
-        }  
+    }  
     locationEl.textContent = "Location: Bay " + locationRef;
     locationAnchor.append(locationEl);
     localStorage.setItem("cartLocation", JSON.stringify(locationRef));
     cartLocation = locationRef;
 };
+const renderRef = () => {
+    if (localStorage.getItem("cartRef")) {
+        cartRef = JSON.parse(localStorage.getItem("cartRef"));
+    };
+    const refEl = document.createElement("p");
+    refEl.textContent = "Your reference name: " + cartRef;
+    refAnchor.append(refEl);
+}
+
+const renderLocation = () => {
+    if(localStorage.getItem("cartLocation")) {
+    cartLocation = JSON.parse(localStorage.getItem("cartLocation"));
+    };
+    const locationEl = document.createElement("p");
+    while (locationAnchor.hasChildNodes()) {
+        locationAnchor.removeChild(locationAnchor.firstChild);
+    }  
+    locationEl.textContent = "Location: Bay " + cartLocation;
+    locationAnchor.append(locationEl);
+}
 
 //render items from localStorage
 const renderCart = () => {
@@ -140,7 +161,6 @@ const renderCart = () => {
             let quantityEl = document.createElement("div");
             let priceEl = document.createElement("div");
             let button = document.createElement("button");
-            
             orderElId.appendChild(itemEl);
             itemEl.append(nameEl);
             nameEl.textContent = item.name;
@@ -167,24 +187,6 @@ const renderCart = () => {
     };
 };
 
-//if orderElId has first child... submit button visible else orderElId.text Content = Selected items will appear here. 
-
-//iterate over the array of objects cart and collect all cart.id into one array.
-// const toggleVisibility = () => {
-//     let elements = document.querySelectorAll(".toggleVisibility");
-//     console.log(elements, "elements");
-//     for (let i = 0; i < elements.length; i++) {
-//         console.log(elements[i], "element");
-//         if (elements[i].style.display === "none") {
-//             console.log("here");
-//             elements[i].style.display = "block";
-//         } else {
-//             console.log("else here");
-//             elements[i].style.display = "none";
-//         }
-//     }
-// };
-
 // Function to update the cart and sum in local storage
 const updateLocalStorage = (cart, sum, count) => {
     localStorage.setItem("cart", JSON.stringify(cart));
@@ -197,11 +199,8 @@ const removeEl = (button) => {
     const id = button.getAttribute('data-id');
         const item = cart[id];
         if(cart[id]){
-            console.log("cart[id]");
             if (cart[id].qty>1) {
-                console.log(cart[id].qty, "cart[id].qty");
                 cart[id].qty--;
-                console.log(cart[id].qty, "cart[id].qty");
                 sum -= item.price;
                 count--;
                 // Update local storage
@@ -215,13 +214,9 @@ const removeEl = (button) => {
                 console.log(cart, 'cart');
                 // Remove the item from the cart
                 delete cart[id];
-                console.log(cart, 'cart');
-        
+
                 // Update local storage
                 updateLocalStorage(cart, sum, count);
-        
-                console.log(cart, 'updated cart');
-                console.log(sum, 'sum');
 
                 // Find the closest parent element with class 'row'
                 const row = button.closest(".row");
@@ -229,7 +224,6 @@ const removeEl = (button) => {
                     row.remove();
                 }
             };
-
             updateCart();
             renderCart();
             toggleVisibility();
@@ -281,16 +275,8 @@ document.addEventListener('click', (event) => {
         addItem(event.target);
     }
     if (event.target.matches('.remove-button')) {
-        console.log(event.target, "event.target");
         removeEl(event.target);
     }
 });
-
-// const loadPage = () => {
-//     renderCart();
-//     toggleVisibility();
-// }
-
-// document.addEventListener('DOMContentLoaded', loadPage());
 
 submitBtn.addEventListener('click', submitOrder);
