@@ -350,5 +350,9 @@ document.addEventListener('click', (event) => {
 submitBtn.addEventListener('click', submitOrder);
 
 window.onpagehide = () => {
-    localStorage.removeItem({ cartRef, cartLocation, cart, sum, count });
+    const keysToRemove = ['cartRef', 'cartLocation', 'cart', 'sum', 'count'];
+
+    keysToRemove.forEach(key => {
+        localStorage.removeItem(key);
+    });
 };
