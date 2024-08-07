@@ -1,11 +1,47 @@
+
+//Set variables to access sections
+const welcomeSec = document.getElementById("welcomeSec");
+const userDetailsInput = document.getElementById("userDetailsInput");
+const order = document.getElementById("order");
+const menu = document.getElementById("menu");
+const userDetails = document.getElementById("userDetails");
+
+//set variables for buttons
+const agreementBtn = document.querySelector("#agreementBtn");
+const userEditBtn = document.querySelector("#userEditBtn");
+
+//set original attributes of sections
+welcomeSec.setAttribute("style", "display: flex");
+userDetailsInput.setAttribute("style", "visibility: hidden");
+order.setAttribute("style", "visibility: hidden");
+menu.setAttribute("style", "visibility: hidden");
+userDetails.setAttribute("style", "visibility: hidden");
+
+agreementBtn.addEventListener('click', function(event) {
+    event.preventDefault;
+    agreementBtn.disabled = true;
+    
+    welcomeSec.setAttribute("style","display: none");
+    renderUserDetails();
+    // if(cartRef && cartLocation) {
+    //     userDetailsInput.setAttribute("style", "display: none");
+    // } else {
+    //     userDetailsInput.setAttribute("style", "visibility: visible");
+    // }
+    menu.setAttribute("style", "visibility: visible");
+    order.setAttribute("style", "visibility: visible");
+});
+
+userEditBtn.addEventListener('click', function(event) {
+    event.preventDefault;
+    userDetailsInput.setAttribute("style", "display: block");
+})
+
 const orderElId = document.getElementById("orderEl-id");
 const submitBtn = document.getElementById("submitBtn");
 const visibleItem = document.querySelector(".visibleItem");
 const hiddenItem1 = document.querySelector(".hiddenItem1");
 const hiddenItem2 = document.querySelector(".hiddenItem2");
-const hiddenItem3 = document.querySelector(".hiddenItem3");
-const hiddenItem4 = document.querySelector(".hiddenItem4");
-const hiddenItem5 = document.querySelector(".hiddenItem5");
 const hiddenItem6 = document.querySelector(".hiddenItem6");
 const orderBody = document.getElementById("orderBody");
 
@@ -18,14 +54,11 @@ let count = parseInt(localStorage.getItem('count')) || 0;
 let cartRef = JSON.parse(localStorage.getItem('cartRef')) || "";
 let cartLocation = JSON.parse(localStorage.getItem('cartLocation')) || "";
 
-window.onload = (event) => {
-    event.preventDefault();
+window.onload = () => {
     try {
         renderCart();
         updateCart();
         toggleOrderItems();
-        renderLocation();
-        renderRef();
     } catch (error) {
         console.error('Error rendering cart:', error);
     }
@@ -44,13 +77,18 @@ if (localStorage.getItem("cart")) {
 
 };
 
-if (localStorage.getItem("cartRef")) {
-    cartRef = JSON.parse(localStorage.getItem("cartRef"));
-};
+// if (localStorage.getItem("cartRef")) {
+//     cartRef = JSON.parse(localStorage.getItem("cartRef"));
+//     userDetails.setAttribute("style","visibility: visible");
+// };
 
-if(localStorage.getItem("cartLocation")) {
-    cartLocation = JSON.parse(localStorage.getItem("cartLocation"));
-};
+// if(localStorage.getItem("cartLocation")) {
+//     cartLocation = JSON.parse(localStorage.getItem("cartLocation"));
+//     userDetails.setAttribute("style","visibility: visible");
+// };
+// if(!localStorage.getItem("cartLocation") && !localStorage.getItem("cartRef")) {
+//     userDetails.setAttribute("style", "visibility: hidden");
+// }
 
 //add item to localStorage
 const addItem = (addButton) => {
@@ -58,6 +96,10 @@ const addItem = (addButton) => {
     const price = parseFloat(addButton.getAttribute('data-price'));
     const status = addButton.getAttribute('data-status');
     const name = addButton.getAttribute('data-name');
+    addButton.classList.add('flash');
+    setTimeout(() => {
+        addButton.classList.remove('flash');
+    }, 500);
     
     if (cart[id]) {
         cart[id].qty++;
@@ -85,19 +127,11 @@ const toggleOrderItems = () => {
     if(orderElId.hasChildNodes()) {
         hiddenItem1.style.display = "block";
         hiddenItem2.style.display = "block";
-        hiddenItem3.style.display = "block";
-        hiddenItem4.style.display = "block";
-        hiddenItem5.style.display = "block";
-        // hiddenItem6.style.display = "block";
         visibleItem.style.display = "none";
 
     } else if(!orderElId.hasChildNodes()) {
         hiddenItem1.style.display = "none";
         hiddenItem2.style.display = "none";
-        hiddenItem3.style.display = "none";
-        hiddenItem4.style.display = "none";
-        hiddenItem5.style.display = "none";
-        // hiddenItem6.style.display = "none";
         visibleItem.style.display = "block";
     }
 };
@@ -111,27 +145,65 @@ const storeRef = (refInput) => {
     const refName = refInput.trim(); 
     localStorage.setItem("cartRef", JSON.stringify(refName));
     cartRef = refName;
+    userDetails.setAttribute("style", "visibility: visible");
     refAnchor.textContent = cartRef;
+    if(refAnchor.innerHTML && locationAnchor.innerHTML) {
+        userDetailsInput.setAttribute("style", "display: none");
+    }
 };
 const storeLocation = (locationRef) => {
     localStorage.setItem("cartLocation", JSON.stringify(locationRef));
     cartLocation = locationRef;
+    userDetails.setAttribute("style", "visibility: visible");
     locationAnchor.textContent = cartLocation;
+    if(refAnchor.innerHTML && locationAnchor.innerHTML) {
+        userDetailsInput.setAttribute("style", "display: none");
+    }
 };
 
-const renderRef = () => {
-    if (localStorage.getItem("cartRef")) {
-        cartRef = JSON.parse(localStorage.getItem("cartRef"));
-    }
-    refAnchor.textContent = cartRef;
-}
+// const renderRef = () => {
+//     if (localStorage.getItem("cartRef")) {
+//         cartRef = JSON.parse(localStorage.getItem("cartRef"));
+//         userDetails.setAttribute("style", "visibility: visible");
+//         userDetailsInput("style", "visibility: hidden");
+//         refAnchor.textContent = cartRef;
+//     } else {
+//         cartRef = "";
+//         userDetails.setAttribute("style", "visibility: hidden");
+//         userDetailsInput("style", "visibility: visible");
+//     };   
+// }
 
-const renderLocation = () => {
-    if(localStorage.getItem("cartLocation")) {
-    cartLocation = JSON.parse(localStorage.getItem("cartLocation"));
-    };
-    locationAnchor.textContent = cartLocation;
-}
+// const renderLocation = () => {
+//     if(localStorage.getItem("cartLocation")) {
+//     cartLocation = JSON.parse(localStorage.getItem("cartLocation"));
+//     userDetails.setAttribute("style", "visibility: visible");
+//     userDetailsInput("style", "visibility: hidden");
+//     locationAnchor.textContent = cartLocation;    
+//     } else {
+//         cartLocation = "";
+//         userDetails.setAttribute("style", "visibility: hidden");
+//         userDetailsInput("style", "visibility: visible");
+//     }
+// };
+
+const renderUserDetails = () => {
+    if(localStorage.getItem("cartLocation") || localStorage.getItem("cartRef")) {
+        cartLocation = JSON.parse(localStorage.getItem("cartLocation"));
+        cartRef = JSON.parse(localStorage.getItem("cartRef"));
+        userDetails.setAttribute("style", "visibility: visible");
+        userDetailsInput.setAttribute("style", "display: none");
+        if(cartLocation) {
+            locationAnchor.textContent = cartLocation;
+        };
+        if(cartRef) {
+            refAnchor.textContent = cartRef;
+        };
+    } else {
+        userDetails.setAttribute("style", "display: none");
+        userDetailsInput.setAttribute("style", "visibility: visible");
+    }
+};
 
 //render items from localStorage
 const renderCart = () => {
@@ -145,6 +217,7 @@ const renderCart = () => {
             let nameEl = document.createElement("div");
             let quantityEl = document.createElement("div");
             let priceEl = document.createElement("div");
+            let buttonContainer = document.createElement("div");
             let button = document.createElement("button");
             // let iconEl = document.createElement("i");
             orderElId.appendChild(itemEl);
@@ -155,19 +228,26 @@ const renderCart = () => {
             itemEl.append(priceEl);
             const total = item.price * item.qty;
             priceEl.textContent = `$` + total;
-            button.textContent = "Remove from order";
-            itemEl.append(button);
+            const minusIcon = `
+            <i class="bi bi-dash-circle-fill text-light m-1"></i>
+            `
+            // const icon = document.createElement('i');
+            // icon.className = 'bi bi-dash-circle-fill'; // Example of a check icon
+            button.innerHTML = minusIcon;
+            buttonContainer.setAttribute("class", "col-3 text-end");
+            itemEl.append(buttonContainer);
+            buttonContainer.append(button);
             // iconEl.setAttribute("class", "bi bi-bag-dash-fill");
             // button.append(iconEl);
             itemEl.setAttribute("data-id", id);
              //If element already exists with this id or text content, change quantity to +1
             itemEl.setAttribute("data-quantity", 1)
-            itemEl.setAttribute("class", "row");
-            nameEl.setAttribute("class", "col-6");
-            quantityEl.setAttribute("class", "col-1");
-            priceEl.setAttribute("class", "col-2");
+            itemEl.setAttribute("class", "row d-flex justify-content-between align-items-center m-1");
+            nameEl.setAttribute("class", "col-4 text-start");
+            quantityEl.setAttribute("class", "col-2 text-center");
+            priceEl.setAttribute("class", "col-3 text-center");
             button.setAttribute("type", "button");
-            button.setAttribute("class", "btn btn-sm btn-dark col-3 remove-button my-1");
+            button.setAttribute("class", "btn btn-dark btn-sm remove-button");
             button.setAttribute("data-id", id);            
         } else {
             console.log(item.name, "Item not available");
@@ -228,10 +308,9 @@ const submitOrder = async (event) => {
         while (counter > 0){
             items.push(id);
             counter--;
-            console.log(counter, items);
         };
     };
-    const id = 11;
+    const id = 1;
     const response = await fetch(`/api/customerOrders/data/${id}`, {
         method:'POST',
         body: JSON.stringify({ items, sum, cartRef, cartLocation }),
@@ -259,11 +338,11 @@ const submitOrder = async (event) => {
 
 // document.getElementById('submitBtn').addEventListener("click", submitOrder);
 document.addEventListener('click', (event) => {
-    if (event.target.matches('.add-button')) {
-        addItem(event.target);
+    if (event.target.matches('.add-button') || event.target.closest('.add-button')) {
+        addItem(event.target.closest('.add-button'));
     }
-    if (event.target.matches('.remove-button')) {
-        removeEl(event.target);
+    if (event.target.matches('.remove-button') || event.target.closest('.remove-button')) {
+        removeEl(event.target.closest('.remove-button'));
     }
 });
 
