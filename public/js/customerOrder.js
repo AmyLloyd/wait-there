@@ -350,9 +350,21 @@ document.addEventListener('click', (event) => {
 submitBtn.addEventListener('click', submitOrder);
 
 window.onpagehide = () => {
-    const keysToRemove = ['cartRef', 'cartLocation', 'cart', 'sum', 'count'];
+    // const keysToRemove = ['cartRef', 'cartLocation', 'cart', 'sum', 'count'];
 
-    keysToRemove.forEach(key => {
-        localStorage.removeItem(key);
-    });
+    // keysToRemove.forEach(key => {
+    //     localStorage.removeItem(key);
+    // });
+    try {
+        localStorage.removeItem("cart");
+        localStorage.removeItem("cartRef");
+        localStorage.removeItem("cartLocation");
+        localStorage.removeItem("sum");
+        localStorage.removeItem("count");
+        alert("cleared");
+    } catch(err) {
+        console.log(err);
+    }
+
+
 };
