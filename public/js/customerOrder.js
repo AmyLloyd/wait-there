@@ -300,6 +300,7 @@ const removeEl = (button) => {
     }
 };
 
+
 const submitOrder = async (event) => {
     event.preventDefault();
     const items = [];
@@ -347,3 +348,7 @@ document.addEventListener('click', (event) => {
 });
 
 submitBtn.addEventListener('click', submitOrder);
+
+window.onpagehide = () => {
+    localStorage.removeItem({ cartRef, cartLocation, cart, sum, count });
+};
