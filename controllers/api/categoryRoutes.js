@@ -22,7 +22,6 @@ router.post("/data/new", withAuth, async (req, res) => {
 
 router.delete('/:id', withAuth, async (req, res) => {
     try {
-        console.log(req.params.id)
         const categoryData = await Category.destroy({
             where: {
                 id: req.params.id,
