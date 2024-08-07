@@ -20,7 +20,7 @@ const sess = {
     httpOnly: true,
     // secure: process.env.NODE_ENV === 'production',
     secure:true,
-    sameSite: 'none',
+    sameSite: 'strict',
   },
   proxy:true,
   resave: false,
