@@ -71,15 +71,10 @@ router.post("/login", async (req, res) => {
 //http request localhost:3001/api/admins/logout
 
 router.post("/logout", (req, res) => {
-    if(req.session.logged_in) {
-        req.session.destroy(err => {
-            if (err) {
-                console.error('Error destroying session:', err);
-                res.status(500).json({ message: 'Failed to destroy session' });
-            } else {
-                res.status(204).end();
-            }
-        })
+    if (req.session.logged_in) {
+        req.session.destroy(() => {
+          res.status(204).end();
+        });
     } else {
         res.status(404).end();
     }
