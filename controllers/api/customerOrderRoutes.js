@@ -95,7 +95,6 @@ router.put('/:order_id', withAuth, async (req, res) => {
 
 router.delete('/:order_id', withAuth, async (req, res) => {
   try {
-    console.log(req.params.order_id, "params");
     const deletedOrder = await CustomerOrder.destroy({
       where: {
         id: req.params.order_id,
@@ -115,21 +114,4 @@ router.delete('/:order_id', withAuth, async (req, res) => {
 
 });
 
-// //http request /api/orders/data
-// router.post('/data', withAuth, async (req, res) => {
-//   console.log("before try");
-//     try {
-//       console.log('here');
-//       console.log("Raw request data:", req.body);
-//       const orderData = await CustomerOrder.create({
-//         reference_name: req.body.reference_name,
-//         location: req.body.location,
-//       });
-//       console.log(orderData, 'orderData');
-//       res.status(200).json({ order: orderData, message: "New order created" });
-//     } catch (err) {
-//       console.error(err);
-//       res.status(400).json(err);
-//     }
-//   });
   module.exports = router;
