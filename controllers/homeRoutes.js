@@ -38,15 +38,6 @@ router.get('/dashboard', withAuth, async (req, res) => {
             'id',
             'location'
           ],
-          // include: [{ model: Item, 
-          //   through: OrderItem,
-          //     as:"items",
-          //     attributes: [
-          //     'id',
-          //     'name',
-          //     'status'
-          //   ]
-          // }]
           include: [
             {
               model: Item,
@@ -118,13 +109,9 @@ router.get('/login', (req, res) => {
               'id',
               'location'
             ],
-            include: [{ model: Item, 
-              through: OrderItem, as:"items",
-              attributes: [
-                'id',
-                'name',
-                'price'
-              ]
+            include: [{ model: Item,
+              as:"items",
+              through: {attributes: ['qty']}
             }]
           }
         ]

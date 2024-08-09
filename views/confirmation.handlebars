@@ -13,7 +13,7 @@
                 <h5 class="card-title text-dark">Order {{this.id}} at location {{this.location}}</h5>
                 <ul class="list-group list-group-flush">
                     {{#each this.items}}
-                    <li class="list-group-item">{{this.name}} ${{this.price}}</li>
+                    <li class="list-group-item">{{orderItem.qty}} {{this.name}} ${{this.price}}</li>
                     {{/each}}
                     <li class="list-group-item">Total price: ${{this.total_amount}}</li>
                 </ul>
