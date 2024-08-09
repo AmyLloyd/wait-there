@@ -6,11 +6,11 @@
     {{#each admin.customerOrders}}
     <div class="card mb-3 text-center text-bg-danger" style="max-width: 36rem; display:block; margin:auto;">
         <div class="card-header text-body-secondary">
-            Reference name: {{reference_name}}
+            Reference: {{reference_name}}
         </div>
         <div class="card-body">
             <div>
-                <h5 class="card-title text-dark">Order {{this.id}}</h5>
+                <h5 class="card-title text-dark">Order {{this.id}} at location {{this.location}}</h5>
                 <ul class="list-group list-group-flush">
                     {{#each this.items}}
                     <li class="list-group-item">{{this.name}} ${{this.price}}</li>
