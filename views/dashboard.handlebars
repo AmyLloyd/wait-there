@@ -38,14 +38,11 @@
         <h4>Orders</h4>
         {{#each admin.customerOrders}}
         <div class="row">
-            {{!-- <div class="col-3">{{this.date_created}}</div> --}}
+            <div class="col-1">{{this.id}}</div>
             <div class="col-3">{{this.reference_name}}</div>
             <div class="col-4">
                 {{#each this.items}}
-                <div>{{this.id}}</div>
                 <div>{{this.name}}</div>
-                <div>{{this.price}}</div>
-                
                 {{/each}}
             </div>
             <div class="col-5">
@@ -56,33 +53,4 @@
         {{/each}}
     </div>
 </section>
-{{!-- <section>
-    <h4>Edit menu</h4>
-        <button class="btn btn-dark" type="button">Add new item</button>
-        <button class="btn btn-dark" type="button">Add new category</button>
-    <form>
-        <div class="mb-3">
-            <label for="itemName" class="form-label">Item name</label>
-            <input type="text" class="form-control" id="itemName" name="itemName" aria-describedby="itemName">
-            <div id="emailHelp" class="form-text">We'll never share your email with anyone else.</div>
-        </div>
-        <div class="mb-3">
-            <label for="itemPrice" class="form-label">Item price ($)</label>
-            <input type="number" class="form-control" id="itemPrice" name="itemPrice" aria-describedby="itemPrice"   placeholder="1.00"
-  pattern="[0-9]{3}.[0-9]{2}">>
-        <div id="emailHelp" class="form-text">We'll never share your email with anyone else.</div>
-        </div>
-        <input type="list" class="form-control" name="category" list="categories">
-        <datalist>
-            {{#each categories}}
-            <option value="this.name"/>
-            {{/each}}
-        </datalist>
-        <div class="mb-3">
-            <label for="exampleInputPassword1" class="form-label">Password</label>
-            <input type="password" class="form-control" id="exampleInputPassword1">
-        </div>
-        <button type="submit" class="btn btn-primary">Submit</button>
-    </form>
-</section> --}}
-  <script src="/js/dashboard.js"></script>
+<script src="/js/dashboard.js"></script>
