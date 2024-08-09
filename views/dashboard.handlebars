@@ -38,17 +38,17 @@
         <h4>Orders</h4>
         {{#each admin.customerOrders}}
         <div class="row">
-            <div class="col-1">{{this.id}}</div>
-            <div class="col-3">{{this.reference_name}}</div>
-            <div class="col-4">
+            <div class="col-1">#{{this.id}}</div>
+            <div class="col-2">{{this.reference_name}}</div>
+            <div class="col-3">
                 {{#each this.items}}
                 <div>{{this.name}}</div>
                 {{/each}}
             </div>
-            <div class="col-5">
-                <button class="btn btn-dark btn-sm update-order-button" data-id={{this.id}} type="button">{{this.status}}</button>
+            <div class="col-3">${{this.total_amount}}</div>
+            <div class="col-3">
+                <button class="btn btn-dark btn-sm m-1 update-order-button" data-id={{this.id}} type="button">{{this.status}}</button>
             </div>
-
         </div>
         {{/each}}
     </div>

@@ -26,13 +26,13 @@
 </div>
 <div class="card mt-3" id="welcomeSec">
   <div class="card-body">
-    <h5 class="card-title">Welcome to WNC Canteen orders</h5>
+    <h5 class="card-title text-center">Welcome to WNC Canteen indoor court orders</h5>
     <p class="card-text">We're keeping it simple so here's how it works:</p>
     <ul>
         <li>Find your location from the nearest WNC Canteen ordering sign</li>
         <li>Submit your order</li>
         <li>Wait at your location</li>
-        <li>Tap or provide exact change to pay on delivery</li>
+        <li>Pay upon delivery using "tap and go" or correct cash. No change available.</li>
     </ul>
     <p class="card-text"><small class="text-body-secondary">Need something different? Walk on down to the canteen and ask our friendly volunteers!</small></p>
       <button class="btn btn-danger" id="agreementBtn">Yes, I'll wait and pay. Continue to online ordering. </button>
@@ -44,7 +44,7 @@
         <h5 class="card-title">Your details</h5>
         <div id="referenceInput">
             {{!-- <form class="mb-3 row" id="refNameForm"> --}}
-            <label for="refName" class="col-form-label">Reference name:</label>
+            <label for="refName" class="col-form-label">First name:</label>
             {{!-- <input type="text" name="refName" onchange="storeRef(this.value)"> --}}
             <input type="text" class="form-control" name="refName" onchange="storeRef(this.value)">
             {{!-- </form> --}}
@@ -64,9 +64,21 @@
                     </label>
                 </div>
                 <div class="form-check form-check-inline">
-                    <input class="form-check-input" type="radio" name="locationRadios" id="locationRadios2" value="B" onchange="storeLocation(this.value)">
-                    <label class="form-check-label" for="locationRadios2">
+                    <input class="form-check-input" type="radio" name="locationRadios" id="locationRadios3" value="C" onchange="storeLocation(this.value)">
+                    <label class="form-check-label" for="locationRadios3">
                         C
+                    </label>
+                </div>
+                <div class="form-check form-check-inline">
+                    <input class="form-check-input" type="radio" name="locationRadios" id="locationRadios4" value="D" onchange="storeLocation(this.value)">
+                    <label class="form-check-label" for="locationRadios4">
+                        D
+                    </label>
+                </div>
+                <div class="form-check form-check-inline">
+                    <input class="form-check-input" type="radio" name="locationRadios" id="locationRadios5" value="E" onchange="storeLocation(this.value)">
+                    <label class="form-check-label" for="locationRadios5">
+                        E
                     </label>
                 </div>
             </div>
@@ -75,9 +87,9 @@
 
 <div class="card mt-3" id="order">
     <div class="card-body">
-        <div class="d-flex align-items-center justify-content-between">
+        <div class="d-flex align-items-center">
             <h5 class="card-title">Your Order</h5>
-            <div class="hiddenItem2 text-end col-2"><span id="count" class="text-bg-danger badge"></span></div>
+            <div class="hiddenItem2 text-end col-2 pb-2"><span id="count" class="text-bg-danger badge"></span></div>
         </div>
         <div class="fst-italic visibleItem" style="display: block">No items added</div>
         <div class="row" id="orderEl-id">
@@ -104,9 +116,9 @@
                 <div id="flush-collapse-{{@index}}" class="accordion-collapse collapse" data-bs-parent="#accordionFlushExample">
                     {{#each this.items}}
                     <div class="accordion-body row">
-                        <div class="col-4 text-start">{{this.name}}</div>
+                        <div class="col-6 text-start">{{this.name}}</div>
                         <div class="col-4 text-center">${{this.price}}</div>
-                        <div class="col-4 text-end">
+                        <div class="col-2 text-end">
                             <button type="button" class="btn add-button btn-dark btn-sm active" aria-pressed="true" data-id="{{this.id}}" data-name="{{this.name}}" data-price="{{this.price}}" data-status="{{this.status}}">
                                <i class="bi bi-plus-circle-fill"></i>
                             </button>
