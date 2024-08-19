@@ -1,24 +1,12 @@
 # Wait There
 
-## Description
-
 Wait There is a web application developed in response to a challenge faced by a sporting club's canteen. The canteen experienced a decline in sales due to the addition of a venue located further away. To address this issue, Wait There allows customers to submit online orders and have them delivered to their chosen location. The application has received positive feedback from both customers and canteen volunteers, who appreciate its user-friendly interface and its ability to support the club's canteen while allowing them to enjoy the game at their preferred location.
 
 The small-scale nature of local sporting canteens was forefront when designing the app. The canteens are only open for limited hours, run by volunteers and hold minimal stock with the aim of selling out many items. In order to simplify stock management, all possible items held by the canteen were inputed then a simple "Available" and "Not available" button was added. Because the canteen runs both face-to-face and online, online payment is not available due to the risk of ordering items before stock status has been updated when it runs out.  
 
 The interaction between the digital system and a delivery system made efficient logistics and communication channels a key consideration. Order status updates were also made available so that the canteen staff were able to communicate progress to the customer. Initial testing highlighted the need for alerts and notifications that would grab the attention of volunteers who were busy in customer service or conversation. Notification features will be implemented in the future.  
 
-
-## Table of Contents (Optional)
-
-If your README is long, consider adding a table of contents to help users navigate the document easily.
-
-- [Installation](#installation)
-- [Usage](#usage)
-- [Credits](#credits)
-- [License](#license)
-
-## Installation
+<!-- ## Installation
 To set up the development environment for this project, follow these steps:
 
 1. Make sure you have Node.js installed on your machine. You can download it from the official Node.js website.
@@ -41,12 +29,9 @@ To set up the development environment for this project, follow these steps:
 
 5. Open your web browser and navigate to the local development URL to access the application.
 
-You now have the development environment set up and the application running locally. You can make changes to the code and see the updates in real-time as you save the files.
+You now have the development environment set up and the application running locally. You can make changes to the code and see the updates in real-time as you save the files. -->
 
 ## Usage
-
-Include instructions and examples on how to use the application. You can also add screenshots to enhance the user's understanding. To add a screenshot, create an `assets/images` folder in your repository and upload the screenshot there. Then, use the following syntax to include it in your README:
-
 On the homepage, the user is able to login to their account.
 ![Wait There homepage](/public/images/homepage.png)
 
