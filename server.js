@@ -18,10 +18,10 @@ const sess = {
   cookie: {
     maxAge: 60 * 60 * 1000,
     httpOnly: true,
-    secure:true,
+    secure:false,
     sameSite: 'strict',
   },
-  proxy:true,
+  // proxy:true,
   resave: false,
   saveUninitialized: true,
   store: store,
