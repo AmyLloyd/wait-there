@@ -14,14 +14,14 @@ const app = express();
 const PORT = process.env.PORT || 3001;
 
 const sess = {
-  secret: 'Super secret secret',
+  secret: process.env.SESSION_SECRET || 'Super secret secret',
   cookie: {
     maxAge: 60 * 60 * 1000,
     httpOnly: true,
-    secure:false,
+    secure: process.env.NODE_ENV === 'production',
     sameSite: 'strict',
   },
-  // proxy:true,
+  proxy: process.env.NODE_ENV === 'production',
   resave: false,
   saveUninitialized: true,
   store: store,

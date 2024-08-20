@@ -6,7 +6,7 @@ The small-scale nature of local sporting canteens was forefront when designing t
 
 The interaction between the digital system and a delivery system made efficient logistics and communication channels a key consideration. Order status updates were also made available so that the canteen staff were able to communicate progress to the customer. Initial testing highlighted the need for alerts and notifications that would grab the attention of volunteers who were busy in customer service or conversation. Notification features will be implemented in the future.  
 
-<!-- ## Installation
+## Installation
 To set up the development environment for this project, follow these steps:
 
 1. Make sure you have Node.js installed on your machine. You can download it from the official Node.js website.
@@ -19,7 +19,14 @@ To set up the development environment for this project, follow these steps:
     npm install
     ```
 
-4. Once the installation is complete, you can start the development server by running the following command:
+4. Add an env file with your details for: DB_NAME, DB_USER, DB_PASSWORD
+    ```
+    DB_NAME=
+    DB_USER=
+    DB_PASSWORD=
+    ```
+
+5. Once the installation is complete, you can start the development server by running the following command:
 
     ```
     npm start
@@ -29,7 +36,7 @@ To set up the development environment for this project, follow these steps:
 
 5. Open your web browser and navigate to the local development URL to access the application.
 
-You now have the development environment set up and the application running locally. You can make changes to the code and see the updates in real-time as you save the files. -->
+You now have the development environment set up and the application running locally. You can make changes to the code and see the updates in real-time as you save the files.
 
 ## Usage
 On the homepage, the user is able to login to their account.

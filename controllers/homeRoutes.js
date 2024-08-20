@@ -67,15 +67,23 @@ router.get('/dashboard', withAuth, async (req, res) => {
 
 router.get('/orders/:id', async (req, res) => {
   try {
-    const categoryData = await Category.findAll({ 
-      where: { admin_id: req.params.id},
-      include: [{ model: Item,
-        where: { status: "Available"}
-      }],
+    const adminData = await Admin.findByPk(req.params.id, {
+      attributes: { exclude: ['password'] },
+      include: [
+        {
+          model: Category,
+          include: [
+            {
+              model: Item,
+              where: {status: "Available"}
+            }
+          ]
+        }]
     });
-    const categories = await categoryData.map((category) => category.get({ plain:true }));
+
+    const admin = adminData.get({ plain:true });
     res.render('order', {
-      categories
+      admin
     });
   } catch(err) {
     res.status(400).json(err);

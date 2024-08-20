@@ -261,11 +261,12 @@ const submitOrder = async (event) => {
             counter--;
         };
     };
-    const id = 1;
+    const id = window.location.pathname.split('/').pop();
+
     const response = await fetch(`/api/customerOrders/data/${id}`, {
-        method:'POST',
+        method: 'POST',
         body: JSON.stringify({ items, sum, cartRef, cartLocation }),
-        headers: {  
+        headers: {
             'Content-Type': 'application/json',
         },
     });
@@ -309,6 +310,4 @@ window.onpagehide = () => {
     } catch(err) {
         console.log(err);
     }
-
-
 };
