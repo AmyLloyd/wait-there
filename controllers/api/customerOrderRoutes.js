@@ -8,6 +8,7 @@ const withAuth = require('../../utils/auth');
 router.post('/data/:id', async (req, res) => {
   const { items, sum, cartRef, cartLocation  } = req.body; // Expecting an array of item IDs and the total amount
   let quantity = 0;
+  console.log(req.params.id, 'req.params.id');
   if (!items || !sum || !cartRef || !cartLocation ) {
     return res.status(400).json({ error: 'All details are required' });
   }
