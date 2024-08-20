@@ -310,6 +310,4 @@ window.onpagehide = () => {
     } catch(err) {
         console.log(err);
     }
-
-
 };

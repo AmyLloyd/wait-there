@@ -1,6 +1,11 @@
 <div>
     <div class="row text-bg-danger p-3 align-items-center justify-content-between">
-        <h1 class="text-bg-danger p-3 col-8">{{admin.username}}WNC Canteen</h1>
+        <h1 class="text-bg-danger p-3 col-8">{{category.admin.username}}</h1>
+         {{!-- <h1 class="text-bg-danger p-3 col-8">{{category[0].admin.username}}</h1> --}}
+          <h1 class="text-bg-danger p-3 col-8">{{categories.admin.username}}</h1>
+           <h1 class="text-bg-danger p-3 col-8">{{#each categories}}
+            {{this.adminId}}{{/each}}</h1>
+            {{!-- <h1 class="text-bg-danger p-3 col-8">{{category[0]}}</h1> --}}
         <div class="col-4">
             <div class="row text-light text-end" id="userDetails">
                 <div id="refAnchor"></div>
@@ -26,18 +31,17 @@
 </div>
 <div class="card mt-3" id="welcomeSec">
   <div class="card-body">
-    <h5 class="card-title text-center">Welcome to WNC Canteen indoor court orders</h5>
+    <h5 class="card-title text-center">Welcome to {{category.admin.username}} orders</h5>
     <p class="card-text">We're keeping it simple so here's how it works:</p>
     <ul>
-        <li>Find your location from the nearest WNC Canteen ordering sign</li>
+        <li>Find your location from the nearest {{category.admin.username}} ordering sign</li>
         <li>Submit your order</li>
         <li>Wait at your location</li>
         <li>Pay upon delivery using "tap and go" or correct cash. No change available.</li>
     </ul>
     <p class="card-text"><small class="text-body-secondary">Need something different?</small></p>
-    <p class="card-text"><small class="text-body-secondary">Want to choose from our range of baked goods?</small></p>
-    <p class="card-text"><small class="text-body-secondary">Need a different type of milk?</small></p>
-    <p class="card-text"><small class="text-body-secondary">Walk on down to the canteen and ask our friendly volunteers!</small></p>
+    <p class="card-text"><small class="text-body-secondary">Want to choose specific products from our full range?</small></p>
+    <p class="card-text"><small class="text-body-secondary">Walk on down to {{categories.admin.username}} and ask our friendly volunteers!</small></p>
       <button class="btn btn-danger" id="agreementBtn">Yes, I'll wait and pay. Continue to online ordering. </button>
   </div>
 </div>
