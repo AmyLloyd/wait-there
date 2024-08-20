@@ -71,20 +71,18 @@ router.post("/login", async (req, res) => {
 //http request localhost:3001/api/admins/logout
 
 router.post("/logout", (req, res) => {
-    if(req.session.logged_in) {
+    if (req.session.logged_in) {
         req.session.destroy(err => {
-            if (err) {
-                console.error('Error destroying session:', err);
-                res.status(500).json({ message: 'Failed to destroy session' });
-            } else {
-                res.status(204).end();
-            }
-        })
+          if(err) {
+            return res.status(500).send("Failed to log out");
+          }  
+          res.clearCookie('connect.sid', { path: '/' });
+          res.status(204).end();
+        });
     } else {
         res.status(404).end();
     }
 });
-
 
 // UPDATE an admin http request: api/admins/:id
 router.put('/:id', withAuth, async (req, res) => {

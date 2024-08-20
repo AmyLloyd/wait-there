@@ -17,7 +17,6 @@ router.get('/', async (req, res) => {
 });
 
 router.get('/dashboard', withAuth, async (req, res) => {
-  console.log(req.session.admin_id, "admin_id");
   try {
     const adminData = await Admin.findByPk(req.session.admin_id, {
       attributes: { exclude: ['password'] },
@@ -36,16 +35,16 @@ router.get('/dashboard', withAuth, async (req, res) => {
             'status',
             'date_created',
             'total_amount',
-            'id'
+            'id',
+            'location'
           ],
-          include: [{ model: Item, 
-            through: OrderItem, as:"items",
-            attributes: [
-              'id',
-              'name',
-              'status'
-            ]
-          }]
+          include: [
+            {
+              model: Item,
+              as:"items",
+              through: {attributes: ['qty']}
+            }
+          ]
         }
       ]
     });
@@ -107,15 +106,12 @@ router.get('/login', (req, res) => {
               'status',
               'date_created',
               'total_amount',
-              'id'
+              'id',
+              'location'
             ],
-            include: [{ model: Item, 
-              through: OrderItem, as:"items",
-              attributes: [
-                'id',
-                'name',
-                'price'
-              ]
+            include: [{ model: Item,
+              as:"items",
+              through: {attributes: ['qty']}
             }]
           }
         ]

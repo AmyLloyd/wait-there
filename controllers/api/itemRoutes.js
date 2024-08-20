@@ -6,20 +6,12 @@ const withAuth = require('../../utils/auth');
 //http request /api/items/data
 router.post('/data', withAuth, async (req, res) => {
     try {
-        console.log('Raw request body', req.body);
-
-        // if(!req.body.name) {
-        //     return res.status(400).json({ message: `Item name can't be found`});
-        // };
-
         const itemData = await Item.create({
             name: req.body.name,
             price: req.body.price,
             status: req.body.status,
             category_id: req.body.category_id
         });
-
-        console.log(itemData, 'itemData');
         res.status(200).json({ item: itemData, message: "New item created"});
     } catch (err) {
         console.error(err);

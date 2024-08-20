@@ -23,11 +23,6 @@ agreementBtn.addEventListener('click', function(event) {
     
     welcomeSec.setAttribute("style","display: none");
     renderUserDetails();
-    // if(cartRef && cartLocation) {
-    //     userDetailsInput.setAttribute("style", "display: none");
-    // } else {
-    //     userDetailsInput.setAttribute("style", "visibility: visible");
-    // }
     menu.setAttribute("style", "visibility: visible");
     order.setAttribute("style", "visibility: visible");
 });
@@ -76,19 +71,6 @@ if (localStorage.getItem("cart")) {
     cart = JSON.parse(localStorage.getItem("cart"));
 
 };
-
-// if (localStorage.getItem("cartRef")) {
-//     cartRef = JSON.parse(localStorage.getItem("cartRef"));
-//     userDetails.setAttribute("style","visibility: visible");
-// };
-
-// if(localStorage.getItem("cartLocation")) {
-//     cartLocation = JSON.parse(localStorage.getItem("cartLocation"));
-//     userDetails.setAttribute("style","visibility: visible");
-// };
-// if(!localStorage.getItem("cartLocation") && !localStorage.getItem("cartRef")) {
-//     userDetails.setAttribute("style", "visibility: hidden");
-// }
 
 //add item to localStorage
 const addItem = (addButton) => {
@@ -161,32 +143,6 @@ const storeLocation = (locationRef) => {
     }
 };
 
-// const renderRef = () => {
-//     if (localStorage.getItem("cartRef")) {
-//         cartRef = JSON.parse(localStorage.getItem("cartRef"));
-//         userDetails.setAttribute("style", "visibility: visible");
-//         userDetailsInput("style", "visibility: hidden");
-//         refAnchor.textContent = cartRef;
-//     } else {
-//         cartRef = "";
-//         userDetails.setAttribute("style", "visibility: hidden");
-//         userDetailsInput("style", "visibility: visible");
-//     };   
-// }
-
-// const renderLocation = () => {
-//     if(localStorage.getItem("cartLocation")) {
-//     cartLocation = JSON.parse(localStorage.getItem("cartLocation"));
-//     userDetails.setAttribute("style", "visibility: visible");
-//     userDetailsInput("style", "visibility: hidden");
-//     locationAnchor.textContent = cartLocation;    
-//     } else {
-//         cartLocation = "";
-//         userDetails.setAttribute("style", "visibility: hidden");
-//         userDetailsInput("style", "visibility: visible");
-//     }
-// };
-
 const renderUserDetails = () => {
     if(localStorage.getItem("cartLocation") || localStorage.getItem("cartRef")) {
         cartLocation = JSON.parse(localStorage.getItem("cartLocation"));
@@ -219,7 +175,6 @@ const renderCart = () => {
             let priceEl = document.createElement("div");
             let buttonContainer = document.createElement("div");
             let button = document.createElement("button");
-            // let iconEl = document.createElement("i");
             orderElId.appendChild(itemEl);
             itemEl.append(nameEl);
             nameEl.textContent = item.name;
@@ -231,19 +186,14 @@ const renderCart = () => {
             const minusIcon = `
             <i class="bi bi-dash-circle-fill text-light m-1"></i>
             `
-            // const icon = document.createElement('i');
-            // icon.className = 'bi bi-dash-circle-fill'; // Example of a check icon
             button.innerHTML = minusIcon;
-            buttonContainer.setAttribute("class", "col-3 text-end");
+            buttonContainer.setAttribute("class", "col-2 text-end");
             itemEl.append(buttonContainer);
             buttonContainer.append(button);
-            // iconEl.setAttribute("class", "bi bi-bag-dash-fill");
-            // button.append(iconEl);
             itemEl.setAttribute("data-id", id);
-             //If element already exists with this id or text content, change quantity to +1
             itemEl.setAttribute("data-quantity", 1)
             itemEl.setAttribute("class", "row d-flex justify-content-between align-items-center m-1");
-            nameEl.setAttribute("class", "col-4 text-start");
+            nameEl.setAttribute("class", "col-5 text-start");
             quantityEl.setAttribute("class", "col-2 text-center");
             priceEl.setAttribute("class", "col-3 text-center");
             button.setAttribute("type", "button");
@@ -300,6 +250,7 @@ const removeEl = (button) => {
     }
 };
 
+
 const submitOrder = async (event) => {
     event.preventDefault();
     const items = [];
@@ -322,7 +273,7 @@ const submitOrder = async (event) => {
         throw new Error(`HTTP error! status: ${response.status}`);
     }
     if(response.ok) {
-        alert("Thank you " + cartRef + " for your order. It will be delivered to you at location " + cartLocation + " shortly. Please show the coloured order confirmation on pick-up.");
+        alert("Thank you " + cartRef + " for your order.\nIt will be delivered to you at location " + cartLocation + " shortly.\nPlease show the following order confirmation on delivery.");
         localStorage.removeItem("cart");
         localStorage.removeItem("cartRef");
         localStorage.removeItem("cartLocation");
@@ -347,3 +298,17 @@ document.addEventListener('click', (event) => {
 });
 
 submitBtn.addEventListener('click', submitOrder);
+
+window.onpagehide = () => {
+    try {
+        localStorage.removeItem("cart");
+        localStorage.removeItem("cartRef");
+        localStorage.removeItem("cartLocation");
+        localStorage.removeItem("sum");
+        localStorage.removeItem("count");
+    } catch(err) {
+        console.log(err);
+    }
+
+
+};
