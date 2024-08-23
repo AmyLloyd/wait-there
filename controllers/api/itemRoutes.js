@@ -3,13 +3,12 @@ const { Category, Item } = require('../../models');
 
 const withAuth = require('../../utils/auth');
 
-//http request /api/items/data
-router.post('/data', withAuth, async (req, res) => {
+//http request /api/items/
+router.post('/', withAuth, async (req, res) => {
     try {
         const itemData = await Item.create({
             name: req.body.name,
             price: req.body.price,
-            status: req.body.status,
             category_id: req.body.category_id
         });
         res.status(200).json({ item: itemData, message: "New item created"});
@@ -19,8 +18,9 @@ router.post('/data', withAuth, async (req, res) => {
     };
 });
 
-router.delete('/data/:id', withAuth, async (req, res) => {
+router.delete('/:id', withAuth, async (req, res) => {
     try {
+        console.log('here,', req.params.id);
         const itemData = await Item.destroy({
             where: {
                 id: req.params.id

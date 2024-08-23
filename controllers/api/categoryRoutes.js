@@ -3,8 +3,8 @@ const { Category, Item } = require('../../models');
 
 const withAuth = require('../../utils/auth');
 
-//http request /api/categories/data/new
-router.post("/data/new", withAuth, async (req, res) => {
+//http request /api/categories/new
+router.post("/new", withAuth, async (req, res) => {
     try {
         if (!req.body.name) {
             return res.status(400).json({ message: 'Category name is required' });
@@ -30,7 +30,7 @@ router.delete('/:id', withAuth, async (req, res) => {
         });
 
         if(!categoryData) {
-            res.status(404).json({ message: 'No category found with this id'});
+            res.status(404).json({ message: 'You must be logged in to delete this category' });
             return;
         }
         res.status(200).json({ categoryData, message: "Category and all items removed" });
