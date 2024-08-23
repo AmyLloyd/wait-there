@@ -37,21 +37,23 @@
         <div>
             <h4>Add category</h4>
             <form class="mb-3" id="add-category-form">
-                <label for="category-name">Category Name:</label>
-                <input type="text" id="category-name" name="category-name" autocomplete="off" required>
+                <div class="mb-3">
+                    <label for="category-name">Category Name</label>
+                    <input type="input" class="form-control" id="category-name" name="category-name" autocomplete="off" required>
+                </div>
                 <button type="submit" id="add-category-btn">Add Category</button>
             </form>
         </div>
         <div>
             <h4>Delete category</h4>
             <form class="mb-3">
-                <select class="form-select" id="category-input">
+                <select class="form-select mb-3" id="category-input">
                     <option selected>Select category</option>
                     {{#each admin.categories}}
                     <option value="{{this.id}}">{{this.name}}</option>
                     {{/each}}
                 </select>
-                <button type="submit" id="delete-category-btn">Delete Category</button>
+                <button type="submit" class="mb-3" id="delete-category-btn">Delete Category</button>
             </form>
         </div>    
     </div>
@@ -63,18 +65,18 @@
                 <label for="itemName" class="form-label">Item name</label>
                 <input type="input" class="form-control" autocomplete="off" id="item-name">
             </div>
-            <div>
+            <div class="mb-3">
                 <label for="itemPrice" class="form-label">Item price</label>
                 <input type="input" class="form-control" id="item-price">
             </div>
             <div class="mb-3">
-                <label for="category-list" class="form-label">Category</label>
-                <input class="form-control" list="categorylistOptions" placeholder="Type to search..." autocomplete="off" id="category-list">
-                <datalist id="categoryListOptions">
+                <label for="itemCategory" class="form-label">Category</label>
+                <select class="form-select" id="category-list">
+                    <option id="itemCategory" selected>Select...</option>
                     {{#each admin.categories}}
-                    <option value="{{this.name}}" data-id="{{this.id}}"></option>
+                    <option value="{{this.id}}">{{this.name}}</option>
                     {{/each}}
-                </datalist>
+                </select>
             </div>
             <button type="submit" id="add-item-btn">Add Item</button>   
         </form>   

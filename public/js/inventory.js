@@ -39,7 +39,6 @@ getCategoryInput = () => {
 };
 
 deleteItem = async (id) => {
-    console.log('here in deleteItem func,' , id);
     if(id) {
         try {
             const response = await fetch(`/api/items/${id}`, {
@@ -87,8 +86,7 @@ const addItem = async(event) => {
     event.preventDefault();
     const nameInput = document.querySelector('#item-name');
     const priceInput = document.querySelector('#item-price');
-    // const categoryInput = document.querySelector('#category-list');
-    const category_id = getCategoryInput();
+    const category_id = document.querySelector('#category-list').value;
     
     const name = nameInput.value.trim();
     const price = parseFloat(priceInput.value.trim()).toFixed(2);
@@ -107,8 +105,8 @@ const addItem = async(event) => {
                 alert('New item added successfully!');
                 nameInput.value = '';
                 priceInput.value = '';
-                categoryInput.value = '';
-                location.reload();
+                categoryInput.value = 'Select category';
+                // location.reload();
             } else {
                 alert("Failed to add new item");
             };
