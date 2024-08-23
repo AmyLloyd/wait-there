@@ -1,0 +1,82 @@
+<section>
+    <h1 class="text-bg-danger p-3">{{admin.username}}</h1>
+</section>
+<section class="row">
+    <h2>Inventory</h2>
+    <p class="lead">Here's your space to set up a simple inventory of the stock you hold. To keep things simple, quantities are not recorded. Availability is changed on the dashboard.</p>
+</section>
+
+<section class="row">
+    <div class="col-md-4 order-md-1">
+        <h4>Items</h4>
+            <div class="accordion accordion-flush" id="accordionFlushExample">
+            {{#each admin.categories}}
+            <div class="accordion-item">
+                <h2 class="accordion-header" id="heading-{{@index}}">
+                    <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#flush-collapse-{{@index}}" aria-expanded="false" aria-controls="#flush-collapse-{{@index}}">
+                 {{this.name}}
+                    </button>
+                </h2>
+                <div id="flush-collapse-{{@index}}" class="accordion-collapse collapse" data-bs-parent="#accordionFlushExample">
+                    {{#each this.items}}
+                    <div class="accordion-body row">
+                        <div class="col-4">{{this.name}}</div>
+                        <div class="col-3">${{this.price}}</div>
+                        <div class="col-5">
+                            <button class="btn btn-dark btn-sm delete-item" data-id={{this.id}} type="button">Delete</button>
+                        </div>
+                    </div>
+                    {{/each}}
+                </div>
+         
+            </div>
+        {{/each}}
+        </div>
+    </div>
+    <div class="col-md-4 order-md-2">
+        <div>
+            <h4>Add category</h4>
+            <form class="mb-3" id="add-category-form">
+                <label for="category-name">Category Name:</label>
+                <input type="text" id="category-name" name="category-name" autocomplete="off" required>
+                <button type="submit" id="add-category-btn">Add Category</button>
+            </form>
+        </div>
+        <div>
+            <h4>Delete category</h4>
+            <form class="mb-3">
+                <select class="form-select" id="category-input">
+                    <option selected>Select category</option>
+                    {{#each admin.categories}}
+                    <option value="{{this.id}}">{{this.name}}</option>
+                    {{/each}}
+                </select>
+                <button type="submit" id="delete-category-btn">Delete Category</button>
+            </form>
+        </div>    
+    </div>
+
+    <div class="col-md-4 order-md-3">
+        <h4>Add item</h4>
+        <form id="add-item-form">
+            <div class="mb-3">
+                <label for="itemName" class="form-label">Item name</label>
+                <input type="input" class="form-control" autocomplete="off" id="item-name">
+            </div>
+            <div>
+                <label for="itemPrice" class="form-label">Item price</label>
+                <input type="input" class="form-control" id="item-price">
+            </div>
+            <div class="mb-3">
+                <label for="category-list" class="form-label">Category</label>
+                <input class="form-control" list="categorylistOptions" placeholder="Type to search..." autocomplete="off" id="category-list">
+                <datalist id="categoryListOptions">
+                    {{#each admin.categories}}
+                    <option value="{{this.name}}" data-id="{{this.id}}"></option>
+                    {{/each}}
+                </datalist>
+            </div>
+            <button type="submit" id="add-item-btn">Add Item</button>   
+        </form>   
+</section>
+<script src="/js/inventory.js"></script>
